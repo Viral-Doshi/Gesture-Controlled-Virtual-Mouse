@@ -10,7 +10,8 @@ from os import listdir
 from os.path import isfile, join
 import smtplib
 import wikipedia
-
+import Gesture_Controller
+from threading import Thread
 # Object Initialization
 today = date.today()
 r = sr.Recognizer()
@@ -21,7 +22,6 @@ file_exp_status = False
 path = ''
 files =[]
 is_awake = True
-gc_mode = 0
 
 engine = pyttsx3.init('sapi5')
 engine = pyttsx3.init()
@@ -52,35 +52,48 @@ with sr.Microphone() as source:
         #r.adjust_for_ambient_noise(source)  # listen for 1 second to calibrate the energy threshold for ambient noise levels
         r.energy_threshold = 500
         r.dynamic_energy_threshold = False
-def record_audio():
-    
+def record_audio():  
     with sr.Microphone() as source:
         #r.adjust_for_ambient_noise(source)  # listen for 1 second to calibrate the energy threshold for ambient noise levels
         r.pause_threshold = 0.8
         voice_data = ''
-        #print('Kya hukum hai mere aaka ?')
+        print('listening')
         #audio = r.listen(source)
         audio = r.listen(source, phrase_time_limit=5)
         try:
             #print('Starting Audio Recognition')
             voice_data = r.recognize_google(audio)
-            #print('Recognising')
+            print('Recognising')
         except sr.RequestError:
             print('Sorry my Service is down... Plz try later')
         except sr.UnknownValueError:
             print("Couldn't Recognize that... Does that even make sense ")
         #print(voice_data)
-        return voice_data
+        return voice_data.lower()
 
 def respond(voice_data):
     global path, file_exp_status, files, is_awake
     print(voice_data)
-    voice_data.replace('Proton','')
-    #print(voice_data)
+    print('here')
+    voice_data.replace('proton','')
+    print(voice_data)
+
     if is_awake==False:
-        if 'wake up' in voice_data in voice_data:
+        if 'wake up' in voice_data:
             is_awake = True
             wish()
+
+    #launching gesture controller
+    elif 'launch gesture recognition' in voice_data:
+        print('yes')
+        gc = Gesture_Controller.Gest_Ctrl()
+        Gesture_Controller.Gest_Ctrl.gc_mode = 1
+        t = Thread(target = gc.start)
+        t.start()
+    elif 'stop gesture recognition' in voice_data:
+        if Gesture_Controller.Gest_Ctrl.gc_mode:
+            Gesture_Controller.Gest_Ctrl.gc_mode = 0
+        else: print('Gesture recognition is already inactive')
     # STATIC CONTROLS
     elif 'hello' in voice_data.lower():
         wish()
@@ -89,8 +102,7 @@ def respond(voice_data):
         speak('My name is Proton!')
     elif 'date' in voice_data:
         print(today.strftime("%B %d, %Y"))
-        speak(today.strftime("%B %d, %Y"))
-        
+        speak(today.strftime("%B %d, %Y"))   
     elif 'time' in voice_data:
         print(str(datetime.datetime.now()).split(" ")[1].split('.')[0])
         speak(str(datetime.datetime.now()).split(" ")[1].split('.')[0])
@@ -112,11 +124,6 @@ def respond(voice_data):
         is_awake = False
         
     # DYNAMIC CONTROLS  
-    elif 'activate gesture' in voice_data:
-        print('Gesture controller activated!')
-        speak('Gesture controller activated!')
-        gc_mode = 1
-        
     elif 'copy' in voice_data:
         with keyboard.pressed(Key.ctrl):
             keyboard.press('c')
@@ -171,9 +178,7 @@ def respond(voice_data):
     else: 
         print('I am not functioned to do this !')
 
-#print("Aapki seva mein haazir hun")
 while 1:
     voice_data = record_audio()
-    if 'Proton' in voice_data:
-        voice_data=voice_data[voice_data.find('Proton'):]
+    if 'proton' in voice_data:
         respond(voice_data)

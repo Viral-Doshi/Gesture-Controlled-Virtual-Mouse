@@ -7,7 +7,7 @@ import pyautogui
 import time
 
 class Marker:
-    
+
     def __init__(self, dict_type = aruco.DICT_4X4_50, thresh_constant = 1):
         self.aruco_dict = aruco.Dictionary_get(dict_type)
         self.parameters = aruco.DetectorParameters_create()
@@ -22,7 +22,7 @@ class Marker:
         objp[:,:2] = np.mgrid[0:7,0:6].T.reshape(-1,2)
         objpoints = [] # 3d point in real world space
         imgpoints = [] # 2d points in image plane.
-        images = glob.glob('calib_images\\checkerboard\\*.jpg')
+        images = glob.glob('Final\\calib_images\\checkerboard\\*.jpg')
         for fname in images:
             img = cv2.imread(fname)
             gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -458,10 +458,8 @@ class Mouse:
 
 
 class Gest_Ctrl:
-    
+    gc_mode = 0
     pyautogui.FAILSAFE = False
-    cap = cv2.VideoCapture(0)
-    
     f_start_time = 0
     f_now_time = 0
     
@@ -474,8 +472,8 @@ class Gest_Ctrl:
     csrt_track = Tracker()
     mouse = Mouse()
     
-    def init(self):
-        
+    def __init__(self):
+        Gest_Ctrl.cap = cv2.VideoCapture(0)
         if Gest_Ctrl.cap.isOpened():
             Gest_Ctrl.cam_width  = int( Gest_Ctrl.cap.get(cv2.CAP_PROP_FRAME_WIDTH) )
             Gest_Ctrl.cam_height = int( Gest_Ctrl.cap.get(cv2.CAP_PROP_FRAME_HEIGHT) )
@@ -487,6 +485,10 @@ class Gest_Ctrl:
         
     def start(self):
         while (True):
+            #mode checking
+            if not Gest_Ctrl.gc_mode:
+                print('Exiting Gesture Controller')
+                break
             #fps control
             fps = 30.0
             Gest_Ctrl.f_start_time = time.time()
@@ -532,9 +534,6 @@ class Gest_Ctrl:
         Gest_Ctrl.cap.release()
         cv2.destroyAllWindows()
         
-
-# Gest_Ctrl.init()
-# Gest_Ctrl.start()
         
         
         
