@@ -47,7 +47,10 @@ def wish():
     else:
         speak("Good Evening!")  
 
+    print("I am Proton Sir and now fully awake! Please tell me how may I help you")
     speak("I am Proton Sir and now fully awake! Please tell me how may I help you")
+    
+wish()
 
 # Main Code
 with sr.Microphone() as source:

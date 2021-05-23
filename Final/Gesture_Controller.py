@@ -24,7 +24,7 @@ class Marker:
         imgpoints = [] # 2d points in image plane.
         p1 = 'Final\\calib_images\\checkerboard\\*.jpg' 
         p2 = 'C:\\Users\\Viral Doshi\\Desktop\\Viral Academic\\PR 201\\Aruco_Tracker-master\\Aruco_Tracker-master\\calib_images\\checkerboard\\*.jpg'
-        images = glob.glob(p2)
+        images = glob.glob(p1)
         for fname in images:
             img = cv2.imread(fname)
             gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
