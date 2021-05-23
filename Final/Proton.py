@@ -12,6 +12,7 @@ import smtplib
 import wikipedia
 import Gesture_Controller
 from threading import Thread
+
 # Object Initialization
 today = date.today()
 r = sr.Recognizer()
@@ -22,6 +23,7 @@ file_exp_status = False
 path = ''
 files =[]
 is_awake = True
+gc_mode = 0
 
 engine = pyttsx3.init('sapi5')
 engine = pyttsx3.init()
@@ -52,18 +54,19 @@ with sr.Microphone() as source:
         #r.adjust_for_ambient_noise(source)  # listen for 1 second to calibrate the energy threshold for ambient noise levels
         r.energy_threshold = 500
         r.dynamic_energy_threshold = False
-def record_audio():  
+def record_audio():
+    
     with sr.Microphone() as source:
         #r.adjust_for_ambient_noise(source)  # listen for 1 second to calibrate the energy threshold for ambient noise levels
         r.pause_threshold = 0.8
         voice_data = ''
-        print('listening')
+        #print('Kya hukum hai mere aaka ?')
         #audio = r.listen(source)
         audio = r.listen(source, phrase_time_limit=5)
         try:
             #print('Starting Audio Recognition')
             voice_data = r.recognize_google(audio)
-            print('Recognising')
+            #print('Recognising')
         except sr.RequestError:
             print('Sorry my Service is down... Plz try later')
         except sr.UnknownValueError:
@@ -74,16 +77,53 @@ def record_audio():
 def respond(voice_data):
     global path, file_exp_status, files, is_awake
     print(voice_data)
-    print('here')
     voice_data.replace('proton','')
-    print(voice_data)
-
+    #print(voice_data)
     if is_awake==False:
-        if 'wake up' in voice_data:
+        if 'wake up' in voice_data in voice_data:
             is_awake = True
             wish()
-
-    #launching gesture controller
+    # STATIC CONTROLS
+    elif 'hello' in voice_data:
+        wish()
+    elif 'what is your name' in voice_data:
+        print('My name is Proton!')
+        speak('My name is Proton!')
+    elif 'date' in voice_data:
+        print(today.strftime("%B %d, %Y"))
+        speak(today.strftime("%B %d, %Y"))
+        
+    elif 'time' in voice_data:
+        print(str(datetime.datetime.now()).split(" ")[1].split('.')[0])
+        speak(str(datetime.datetime.now()).split(" ")[1].split('.')[0])
+    elif 'search' in voice_data:
+        speak('Searching for ' + voice_data.split('search')[1])
+        url = 'https://google.com/search?q=' + voice_data.split('search')[1]
+        try:
+            webbrowser.get().open(url)
+            speak('This is what I found Sir')
+        except:
+            speak('Please check your Internet')
+    elif 'location' in voice_data:
+        location_status = True
+        if location_status == True:
+            print('Which place are you looking for ?')
+            speak('Which place are you looking for ?')
+            temp_audio = record_audio()
+            speak('Locating...')
+            url = 'https://google.nl/maps/place/' + temp_audio + '/&amp;'
+            try:
+                webbrowser.get().open(url)
+                speak('This is what I found Sir')
+            except:
+                speak('Please check your Internet')
+    elif ('bye' in voice_data) or ('by' in voice_data):
+        print(voice_data)
+        print("Good bye Sir! Have a nice day.")
+        speak("Good bye Sir! Have a nice day.")
+        is_awake = False
+        
+    # DYNAMIC CONTROLS  
     elif 'launch gesture recognition' in voice_data:
         print('yes')
         gc = Gesture_Controller.Gest_Ctrl()
@@ -94,45 +134,18 @@ def respond(voice_data):
         if Gesture_Controller.Gest_Ctrl.gc_mode:
             Gesture_Controller.Gest_Ctrl.gc_mode = 0
         else: print('Gesture recognition is already inactive')
-    # STATIC CONTROLS
-    elif 'hello' in voice_data.lower():
-        wish()
-    elif 'what is your name' in voice_data:
-        print('My name is Proton!')
-        speak('My name is Proton!')
-    elif 'date' in voice_data:
-        print(today.strftime("%B %d, %Y"))
-        speak(today.strftime("%B %d, %Y"))   
-    elif 'time' in voice_data:
-        print(str(datetime.datetime.now()).split(" ")[1].split('.')[0])
-        speak(str(datetime.datetime.now()).split(" ")[1].split('.')[0])
-    elif 'search' in voice_data:
-        url = 'https://google.com/search?q=' + voice_data.split('search')[1]
-        webbrowser.get().open(url)
-    elif 'location' in voice_data:
-        location_status = True
-        if location_status == True:
-            print('Which place are you looking for ?')
-            speak('Which place are you looking for ?')
-            temp_audio = record_audio()
-            url = 'https://google.nl/maps/place/' + temp_audio + '/&amp;'
-            webbrowser.get().open(url)
-    elif ('bye' in voice_data) or ('by' in voice_data):
-        print(voice_data)
-        print("Good bye Sir! Have a nice day.")
-        speak("Good bye Sir! Have a nice day.")
-        is_awake = False
         
-    # DYNAMIC CONTROLS  
     elif 'copy' in voice_data:
         with keyboard.pressed(Key.ctrl):
             keyboard.press('c')
             keyboard.release('c')
+        speak('Copied')
           
     elif 'page' in voice_data or 'pest'  in voice_data or 'paste' in voice_data:
         with keyboard.pressed(Key.ctrl):
             keyboard.press('v')
             keyboard.release('v')
+        speak('Pasted')
     # File Navigation Start
     
     elif 'list' in voice_data:
@@ -143,6 +156,7 @@ def respond(voice_data):
             counter+=1
             print(str(counter) + ':  ' + f)
         file_exp_status = True
+        speak('These are the files in your root directory')
         
     elif file_exp_status == True:
         counter = 0
@@ -158,12 +172,16 @@ def respond(voice_data):
                     for f in files:
                         counter+=1
                         print(str(counter) + ':  ' + f)
+                    speak('Opened Successfully')
+                    
                 except:
                     print('You do not have permission to access this folder')
+                    speak('You do not have permission to access this folder')
                                     
         if 'back' in voice_data:
             if path == 'C://':
                 print('Sorry, this is the root directory')
+                speak('Sorry, this is the root directory')
             else:
                 a = path.split('//')[:-2]
                 path = '//'.join(a)
@@ -172,13 +190,14 @@ def respond(voice_data):
                 for f in files:
                     counter+=1
                     print(str(counter) + ':  ' + f)
+                speak('ok')
                     
-                            
-    
+                    
     else: 
         print('I am not functioned to do this !')
 
-while 1:
+while True:
     voice_data = record_audio()
     if 'proton' in voice_data:
+        #voice_data=voice_data[voice_data.find('proton'):]
         respond(voice_data)
