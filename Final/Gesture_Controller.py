@@ -22,7 +22,9 @@ class Marker:
         objp[:,:2] = np.mgrid[0:7,0:6].T.reshape(-1,2)
         objpoints = [] # 3d point in real world space
         imgpoints = [] # 2d points in image plane.
-        images = glob.glob('Final\\calib_images\\checkerboard\\*.jpg')
+        p1 = 'Final\\calib_images\\checkerboard\\*.jpg' 
+        p2 = 'C:\\Users\\Viral Doshi\\Desktop\\Viral Academic\\PR 201\\Aruco_Tracker-master\\Aruco_Tracker-master\\calib_images\\checkerboard\\*.jpg'
+        images = glob.glob(p2)
         for fname in images:
             img = cv2.imread(fname)
             gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -34,6 +36,8 @@ class Marker:
                 img = cv2.drawChessboardCorners(img, (7,6), corners2,ret)
                 
         ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1],None,None)
+        #mtx = [[534.34144579,0.0,339.15527836],[0.0,534.68425882,233.84359493],[0.0,0.0,1.0]]
+        #dist = [[-2.88320983e-01, 5.41079685e-02, 1.73501622e-03, -2.61333895e-04, 2.04110465e-01]]
         return mtx, dist
     
     def detect(self, frame):
