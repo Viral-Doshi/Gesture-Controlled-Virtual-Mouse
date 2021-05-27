@@ -7,7 +7,6 @@ import pyautogui
 import time
 
 class Marker:
-
     def __init__(self, dict_type = aruco.DICT_4X4_50, thresh_constant = 1):
         self.aruco_dict = aruco.Dictionary_get(dict_type)
         self.parameters = aruco.DetectorParameters_create()
