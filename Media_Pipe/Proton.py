@@ -57,7 +57,6 @@ with sr.Microphone() as source:             #setting microphone parameters
         r.energy_threshold = 500            #threshold on amplitude of audio signals to pick
         r.dynamic_energy_threshold = False  #disabling auto tuning of energy threshold
 
-
 def record_audio(): #to recognize, returns string
     with sr.Microphone() as source:
         r.pause_threshold = 0.8
