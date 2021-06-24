@@ -5,7 +5,7 @@ mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
 #def Find_Gesture():
-
+# Updated
 
 class Gest_Ctrl:
     gc_mode = 0
