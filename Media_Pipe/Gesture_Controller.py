@@ -22,11 +22,13 @@ class Gest_Ctrl:
         pyautogui.moveTo(int(sx*tx), int(sy*ty), duration = 0.1)
 
 
-    def calculate_position(self,results):
+    def calculate_position_based_on_V(self,results):
         final_x = (results.multi_hand_landmarks[0].landmark[8].x +  results.multi_hand_landmarks[0].landmark[12].x)/2
         final_y = (results.multi_hand_landmarks[0].landmark[8].y +  results.multi_hand_landmarks[0].landmark[12].y)/2
         return [final_x,final_y]
 
+    def calculate_position_based_on_wrist(self,results):
+        return [results.multi_hand_landmarks[0].landmark[0].x, results.multi_hand_landmarks[0].landmark[0].y]
 
     def ShowLocation(self, results):
         try:
@@ -49,8 +51,8 @@ class Gest_Ctrl:
                 image.flags.writeable = True
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
                 if results.multi_hand_landmarks:
-                    # pos = self.calculate_position(results)
-                    #self.move_mouse(pos)
+                    pos = self.calculate_position_based_on_wrist(results)
+                    self.move_mouse(pos)
                     for hand_landmarks in results.multi_hand_landmarks:
                         mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
                     cv2.imshow('MediaPipe Hands', image)
