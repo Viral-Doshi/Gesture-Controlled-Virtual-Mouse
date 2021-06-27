@@ -1,6 +1,8 @@
 import cv2
 import mediapipe as mp
 import pyautogui
+import numpy as np
+import math
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
@@ -13,7 +15,8 @@ class Hand_Recog:
             frame = cv2.line(frame, s_cord, e_cord, (0,255,150), 9)
         return frame
     def render_finger_state(frame, hand_results):
-        points = [[8,6,5],[12,10,9]]
+        #points = [[8,6,5],[12,10,9]]
+        points = [[8,5,0],[12,9,0]]
         label = ["angle : ", "dist_ratio :"]
         for point in points:
             p1 = np.array([hand_results.landmark[point[0]].x,hand_results.landmark[point[0]].y])
@@ -24,17 +27,20 @@ class Hand_Recog:
             if angle > 180.0:
                 angle = 360.0-angle
 
-            dist = (hand_results.landmark[point[0]].x - hand_results.landmark[point[2]].x)**2
-            dist += (hand_results.landmark[point[0]].y - hand_results.landmark[point[2]].y)**2
+            dist = (hand_results.landmark[point[0]].x - hand_results.landmark[point[1]].x)**2
+            dist += (hand_results.landmark[point[0]].y - hand_results.landmark[point[1]].y)**2
             #dist += (hand_results.landmark[point[0]].z - hand_results.landmark[point[2]].z)**2
             dist = math.sqrt(dist)
-            dist2 = (hand_results.landmark[point[2]].x - hand_results.landmark[0].x)**2
-            dist2 += (hand_results.landmark[point[2]].y - hand_results.landmark[0].y)**2
+            dist2 = (hand_results.landmark[point[1]].x - hand_results.landmark[point[2]].x)**2
+            dist2 += (hand_results.landmark[point[1]].y - hand_results.landmark[point[2]].y)**2
             #dist2 += (hand_results.landmark[point[2]].z - hand_results.landmark[0].z)**2
             dist2 = math.sqrt(dist2)
 
             label[0] += str(round(angle,1)) + '  --  '
-            label[1] += str(round(dist/dist2,1)) + '  --  '
+            try:
+                label[1] += str(round(dist/dist2,1)) + '  --  '
+            except:
+                label[1] += "Division by 0"
         frame = cv2.putText(frame, label[0], (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)
         frame = cv2.putText(frame, label[1], (10,100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)
         return frame
