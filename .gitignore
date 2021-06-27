@@ -8,3 +8,6 @@ Media_Pipe/.vs/slnx.sqlite
 *.sqlite
 *.json
 .vs/Repo/v16/.suo
+.vs/Gesture_Controller/v16/.suo
+*.sqlite
+.vs/slnx.sqlite

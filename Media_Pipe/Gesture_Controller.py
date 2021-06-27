@@ -3,10 +3,14 @@ import mediapipe as mp
 import pyautogui
 import numpy as np
 import math
+pyautogui.FAILSAFE = False
+
 mp_drawing = mp.solutions.drawing_utils
 mp_hands = mp.solutions.hands
 
 class Hand_Recog:
+    finger = [False]*4
+
     def render_vector(frame, hand_results):
         points = [[8,0],[12,0]]
         for point in points:
@@ -14,42 +18,91 @@ class Hand_Recog:
             e_cord = (int(hand_results.landmark[point[1]].x * Gest_Ctrl.CAM_WIDTH), int(hand_results.landmark[point[1]].y * Gest_Ctrl.CAM_HEIGHT))
             frame = cv2.line(frame, s_cord, e_cord, (0,255,150), 9)
         return frame
+
     def render_finger_state(frame, hand_results):
-        #points = [[8,6,5],[12,10,9]]
-        points = [[8,5,0],[12,9,0]]
-        label = ["angle : ", "dist_ratio :"]
-        for point in points:
-            p1 = np.array([hand_results.landmark[point[0]].x,hand_results.landmark[point[0]].y])
-            p2 = np.array([hand_results.landmark[point[1]].x,hand_results.landmark[point[1]].y])
-            p3 = np.array([hand_results.landmark[point[2]].x,hand_results.landmark[point[2]].y])
-            radian = np.arctan2(p3[1]-p2[1],p3[0]-p2[0]) - np.arctan2(p1[1]-p2[1],p1[0]-p2[0])
-            angle = np.abs(radian*180.0/np.pi)
-            if angle > 180.0:
-                angle = 360.0-angle
+        points = [[8,5,0],[12,9,0],[16,13,0],[20,17,0]]
+        label = ["dist_ratio :"]
+        for idx,point in enumerate(points):
+            #p1 = np.array([hand_results.landmark[point[0]].x,hand_results.landmark[point[0]].y])
+            #p2 = np.array([hand_results.landmark[point[1]].x,hand_results.landmark[point[1]].y])
+            #p3 = np.array([hand_results.landmark[point[2]].x,hand_results.landmark[point[2]].y])
+            #radian = np.arctan2(p3[1]-p2[1],p3[0]-p2[0]) - np.arctan2(p1[1]-p2[1],p1[0]-p2[0])
+            #angle = np.abs(radian*180.0/np.pi)
+            #if angle > 180.0:
+            #    angle = 360.0-angle
 
             dist = (hand_results.landmark[point[0]].x - hand_results.landmark[point[1]].x)**2
             dist += (hand_results.landmark[point[0]].y - hand_results.landmark[point[1]].y)**2
-            #dist += (hand_results.landmark[point[0]].z - hand_results.landmark[point[2]].z)**2
+            
             dist = math.sqrt(dist)
             dist2 = (hand_results.landmark[point[1]].x - hand_results.landmark[point[2]].x)**2
             dist2 += (hand_results.landmark[point[1]].y - hand_results.landmark[point[2]].y)**2
-            #dist2 += (hand_results.landmark[point[2]].z - hand_results.landmark[0].z)**2
+            
             dist2 = math.sqrt(dist2)
 
-            label[0] += str(round(angle,1)) + '  --  '
+            #label[0] += str(round(angle,1)) + '  --  '
             try:
-                label[1] += str(round(dist/dist2,1)) + '  --  '
+                ratio = round(dist/dist2,1)
+                if ratio < 0.6 :
+                    Hand_Recog.finger[idx] = False
+                else:
+                    Hand_Recog.finger[idx] = True
+                label[0] += str(ratio) + ','
             except:
-                label[1] += "Division by 0"
+                label[0] += "Division by 0"
+
+        fingstr = " ".join(map(str,Hand_Recog.finger))
         frame = cv2.putText(frame, label[0], (10,50), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)
-        frame = cv2.putText(frame, label[1], (10,100), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)
+        frame = cv2.putText(frame, fingstr, (10,150), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)
+        
         return frame
 
 
 
+#class Mouse:
+#    def __init__(self):
+#        self.tx_old = 0
+#        self.ty_old = 0
+#        self.trial = True
+#        self.flag = 0
+        
+#    def move_mouse(self,):
+        
+#        point = 9
+#        position = [hand_results.landmark[point].x , hand_results.landmark[point].y]
 
-#def Find_Gesture():
-# Updated
+#        (sx,sy)=pyautogui.size()
+#        (camx,camy) = (frame.shape[:2][0],frame.shape[:2][1])
+#        (mx_old,my_old) = pyautogui.position()
+        
+        
+#        Damping = 2 # Hyperparameter we will have to adjust
+#        tx = position[0]
+#        ty = position[1]
+#        if self.trial:
+#            self.trial, self.tx_old, self.ty_old = False, tx, ty
+        
+#        delta_tx = tx - self.tx_old
+#        delta_ty = ty - self.ty_old
+#        self.tx_old,self.ty_old = tx,ty
+        
+#        if (gesture == 3):
+#            self.flag = 0
+#            mx = mx_old + (delta_tx*sx) // (camx*Damping)
+#            my = my_old + (delta_ty*sy) // (camy*Damping)            
+#            pyautogui.moveTo(mx,my, duration = 0.1)
+
+#        elif(gesture == 0):
+#            if self.flag == 0:
+#                pyautogui.doubleClick()
+#                self.flag = 1
+#        elif(gesture == 1):
+#            print('1 Finger Open')
+        
+        
+        
+
+
 
 class Gest_Ctrl:
     gc_mode = 0
@@ -61,12 +114,14 @@ class Gest_Ctrl:
         Gest_Ctrl.cap = cv2.VideoCapture(0)
         Gest_Ctrl.CAM_HEIGHT = Gest_Ctrl.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
         Gest_Ctrl.CAM_WIDTH = Gest_Ctrl.cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-
-    def move_mouse(self,position):        
+        
+    def move_mouse(self, hand_results):
+        point = 9
+        position = [hand_results.landmark[point].x , hand_results.landmark[point].y]
         (sx,sy)=pyautogui.size()
         (mx_old,my_old) = pyautogui.position()
         tx = position[0]
-        ty = position[1]           
+        ty = position[1]
         pyautogui.moveTo(int(sx*tx), int(sy*ty), duration = 0.1)
 
 
@@ -97,8 +152,8 @@ class Gest_Ctrl:
                 image.flags.writeable = True
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
                 if results.multi_hand_landmarks:
-                    #pos = self.calculate_position(results)
-                    #self.move_mouse(pos)
+                    pos = self.calculate_position(results)
+                    self.move_mouse(results.multi_hand_landmarks[0])
                     ##hand
                     image = Hand_Recog.render_finger_state(image, results.multi_hand_landmarks[0])
                     for hand_landmarks in results.multi_hand_landmarks:
