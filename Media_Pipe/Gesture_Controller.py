@@ -25,7 +25,10 @@ class Gest(IntEnum):
 
 class Hand_Recog:
     finger = 0
-    
+    ori_gesture = Gest.PALM
+    prev_gesture = Gest.PALM
+    frame_count = 0
+
     #def render_vector(frame, hand_results):
     #    points = [[8,0],[12,0]]
     #    for point in points:
@@ -71,14 +74,9 @@ class Hand_Recog:
         #frame = cv2.putText(frame, fingstr, (10,150), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 2, cv2.LINE_AA)
         
         return frame
-
+    
     def get_gesture():
-
-        #if Gest.FIST == Hand_Recog.finger:
-        #    return 0
-        #if Gest.PALM == Hand_Recog.finger:
-        #    return 0
-        #print("gest ", Hand_Recog.finger)
+        current_gesture = Gest.PALM
         if Gest.FIRST2 == Hand_Recog.finger :
             point = [[8,12],[5,9]]
             dist1 = Hand_Recog.get_dist(point[0])
@@ -87,29 +85,60 @@ class Hand_Recog:
             #print(ratio)
             if ratio > 1.7:
                 #print('V Gesture')
-                return Gest.V_GEST
+                current_gesture = Gest.V_GEST
             else:
-                #print('2 fingers closed')
-                return Gest.TWO_FINGER_CLOSED
-        return Hand_Recog.finger
-
-
-
-#class Mouse:
-#    def __init__(self):
-#        self.tx_old = 0
-#        self.ty_old = 0
-#        self.trial = true
-#        self.flag = 0
+                #print("z : ",Mouse.get_dz([8,12]))
+                if Mouse.get_dz([8,12]) < 0.1:
+                    #print('2 fingers closed')
+                    current_gesture =  Gest.TWO_FINGER_CLOSED
+                else:
+                    current_gesture =  Gest.MID
+        else:
+            current_gesture =  Hand_Recog.finger
         
-#    def move_mouse(self, gesture):
-        
-#        point = 9
-#        position = [hand_results.landmark[point].x , hand_results.landmark[point].y]
+        if current_gesture == Hand_Recog.prev_gesture:
+            Hand_Recog.frame_count += 1
+        else:
+            Hand_Recog.frame_count = 0
 
-#        (sx,sy)=pyautogui.size()
-#        (camx,camy) = (frame.shape[:2][0],frame.shape[:2][1])
-#        (mx_old,my_old) = pyautogui.position()
+        Hand_Recog.prev_gesture = current_gesture
+
+        if Hand_Recog.frame_count > 10 :
+            Hand_Recog.ori_gesture = current_gesture
+        return Hand_Recog.ori_gesture
+
+class Mouse:
+    tx_old = 0
+    ty_old = 0
+    trial = True
+    flag = False
+    def get_dz(point):
+        return abs(Gest_Ctrl.hand_result.landmark[point[0]].z - Gest_Ctrl.hand_result.landmark[point[1]].z)
+    def move_mouse(gesture):
+        point = 9
+        position = [Gest_Ctrl.hand_result.landmark[point].x ,Gest_Ctrl.hand_result.landmark[point].y]
+        (sx,sy)=pyautogui.size()
+        (mx_old,my_old) = pyautogui.position()
+        tx = position[0]
+        ty = position[1]
+        
+        
+        if gesture == Gest.V_GEST:
+            print('Move Mouse')
+            Mouse.flag = True
+            #pyautogui.moveTo(int(sx*tx), int(sy*ty), duration = 0.1)
+        elif gesture == Gest.MID and Mouse.flag:
+            #pyautogui.click()
+            print('Left Click')
+            Mouse.flag = False
+        elif gesture == Gest.INDEX and Mouse.flag:
+            #pyautogui.click(button='right')
+            print('Right Click')
+            Mouse.flag = False
+        elif gesture == Gest.TWO_FINGER_CLOSED and Mouse.flag:
+            #pyautogui.doubleClick()
+            print('Double Click')
+            Mouse.flag = False
         
         
 #        damping = 2 # hyperparameter we will have to adjust
@@ -213,7 +242,7 @@ class Gest_Ctrl:
                     ##hand
                     image = Hand_Recog.render_finger_state(image)
                     gest_name = Hand_Recog.get_gesture()
-                    self.move_mouse(gest_name)
+                    Mouse.move_mouse(gest_name)
                     for hand_landmarks in results.multi_hand_landmarks:
                         mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
                 cv2.imshow('MediaPipe Hands', image)
