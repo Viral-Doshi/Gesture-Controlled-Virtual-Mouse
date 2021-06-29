@@ -1,6 +1,3 @@
-# V Gesture --> Open fingers Signed Ratio, Distance between tips
-
-
 import cv2
 import mediapipe as mp
 import pyautogui
