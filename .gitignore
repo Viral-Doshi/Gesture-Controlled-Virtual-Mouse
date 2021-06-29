@@ -10,4 +10,5 @@ Media_Pipe/.vs/slnx.sqlite
 .vs/Repo/v16/.suo
 .vs/Gesture_Controller/v16/.suo
 *.sqlite
+*.vs
 .vs/slnx.sqlite
