@@ -1,3 +1,6 @@
+# V Gesture --> Open fingers Signed Ratio, Distance between tips
+
+
 import cv2
 import mediapipe as mp
 import pyautogui
@@ -33,6 +36,15 @@ class Hand_Recog:
     #        e_cord = (int(hand_results.landmark[point[1]].x * Gest_Ctrl.CAM_WIDTH), int(hand_results.landmark[point[1]].y * Gest_Ctrl.CAM_HEIGHT))
     #        frame = cv2.line(frame, s_cord, e_cord, (0,255,150), 9)
     #    return frame
+    def get_signed_dist(point):
+        sign = -1
+        if Gest_Ctrl.hand_result.landmark[point[0]].y < Gest_Ctrl.hand_result.landmark[point[1]].y:
+            sign = 1
+        dist = (Gest_Ctrl.hand_result.landmark[point[0]].x - Gest_Ctrl.hand_result.landmark[point[1]].x)**2
+        dist += (Gest_Ctrl.hand_result.landmark[point[0]].y - Gest_Ctrl.hand_result.landmark[point[1]].y)**2
+        dist = math.sqrt(dist)
+        return dist*sign
+    
     def get_dist(point):
         dist = (Gest_Ctrl.hand_result.landmark[point[0]].x - Gest_Ctrl.hand_result.landmark[point[1]].x)**2
         dist += (Gest_Ctrl.hand_result.landmark[point[0]].y - Gest_Ctrl.hand_result.landmark[point[1]].y)**2
@@ -46,8 +58,8 @@ class Hand_Recog:
         Hand_Recog.finger = Hand_Recog.finger | 0 #thumb
         for idx,point in enumerate(points):
             
-            dist = Hand_Recog.get_dist(point[:2])
-            dist2 = Hand_Recog.get_dist(point[1:])
+            dist = Hand_Recog.get_signed_dist(point[:2])
+            dist2 = Hand_Recog.get_signed_dist(point[1:])
             
             try:
                 ratio = round(dist/dist2,1)
