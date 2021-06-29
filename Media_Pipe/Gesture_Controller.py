@@ -18,6 +18,8 @@ class Gest(IntEnum):
     THUMB = 16
     PALM = 31
     FIRST2 = 12
+    V_GEST = 33
+    TWO_FINGER_CLOSED = 34
 
 
 
@@ -61,20 +63,27 @@ class Hand_Recog:
         
         return frame
 
-    def get_gesture(frame):
+    def get_gesture():
+
         #if Gest.FIST == Hand_Recog.finger:
         #    return 0
         #if Gest.PALM == Hand_Recog.finger:
         #    return 0
-        print("gest ", Hand_Recog.finger)
+        #print("gest ", Hand_Recog.finger)
         if Gest.FIRST2 == Hand_Recog.finger :
             point = [[8,12],[5,9]]
             dist1 = Hand_Recog.get_dist(point[0])
             dist2 = Hand_Recog.get_dist(point[1])
             ratio = dist1/dist2
-            frame = cv2.putText(frame, "ratio :" + str(ratio), (10,150), cv2.FONT_HERSHEY_SIMPLEX, 1, (255,0,0), 1, cv2.LINE_AA)
-        frame = cv2.putText(frame, "gest "+str(Hand_Recog.finger), (10,200), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 1, cv2.LINE_AA)
-        return frame
+            #print(ratio)
+            if ratio > 1.7:
+                #print('V Gesture')
+                return Gest.V_GEST
+            else:
+                #print('2 fingers closed')
+                return Gest.TWO_FINGER_CLOSED
+        return Hand_Recog.finger
+
 
 
 #class Mouse:
@@ -134,14 +143,34 @@ class Gest_Ctrl:
         Gest_Ctrl.CAM_HEIGHT = Gest_Ctrl.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
         Gest_Ctrl.CAM_WIDTH = Gest_Ctrl.cap.get(cv2.CAP_PROP_FRAME_WIDTH)
         
-    def move_mouse(self):
+    def move_mouse(self, gesture):
         point = 9
+        flag = True
         position = [Gest_Ctrl.hand_result.landmark[point].x ,Gest_Ctrl.hand_result.landmark[point].y]
         (sx,sy)=pyautogui.size()
         (mx_old,my_old) = pyautogui.position()
         tx = position[0]
         ty = position[1]
-        pyautogui.moveTo(int(sx*tx), int(sy*ty), duration = 0.1)
+        if gesture == Gest.V_GEST:
+            flag = True
+            #pyautogui.moveTo(int(sx*tx), int(sy*ty), duration = 0.1)
+            print('Move Mouse')
+        elif gesture == Gest.MID and flag:
+            #pyautogui.click()
+            flag = False
+            print('Left Click')
+        elif gesture == Gest.INDEX and flag:
+            #pyautogui.click(button='right')
+            flag = False
+            print('Right Click')
+        elif gesture == Gest.TWO_FINGER_CLOSED and flag:
+            #pyautogui.doubleClick()
+            flag = False
+
+            print('Double Click')
+        
+
+        
 
 
     def calculate_position(self):
@@ -171,10 +200,11 @@ class Gest_Ctrl:
                 if results.multi_hand_landmarks:
                     Gest_Ctrl.hand_result = results.multi_hand_landmarks[0]
                     pos = self.calculate_position()
-                    self.move_mouse()
+                    #self.move_mouse()
                     ##hand
                     image = Hand_Recog.render_finger_state(image)
-                    image = Hand_Recog.get_gesture(image)
+                    gest_name = Hand_Recog.get_gesture()
+                    self.move_mouse(gest_name)
                     for hand_landmarks in results.multi_hand_landmarks:
                         mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
                 cv2.imshow('MediaPipe Hands', image)
