@@ -112,6 +112,7 @@ class Mouse:
     ty_old = 0
     trial = True
     flag = False
+    grabflag = False
     def get_dz(point):
         return abs(Gest_Ctrl.hand_result.landmark[point[0]].z - Gest_Ctrl.hand_result.landmark[point[1]].z)
     def move_mouse(gesture):
@@ -122,10 +123,18 @@ class Mouse:
         tx = position[0]
         ty = position[1]
         
-        
+        if gesture != Gest.FIST and Mouse.grabflag:
+            Mouse.grabflag = False
+            pyautogui.mouseUp(button = "left")
         if gesture == Gest.V_GEST:
             print('Move Mouse')
             Mouse.flag = True
+            pyautogui.moveTo(int(sx*tx), int(sy*ty), duration = 0.1)
+        elif gesture == Gest.FIST:
+            print('Grab')
+            if not Mouse.grabflag : 
+                Mouse.grabflag = True
+                pyautogui.mouseDown(button = "left")
             pyautogui.moveTo(int(sx*tx), int(sy*ty), duration = 0.1)
         elif gesture == Gest.MID and Mouse.flag:
             pyautogui.click()
