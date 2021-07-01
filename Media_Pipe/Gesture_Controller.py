@@ -128,7 +128,7 @@ class Mouse:
             Mouse.flag = True
             pyautogui.moveTo(int(sx*tx), int(sy*ty), duration = 0.1)
         elif gesture == Gest.MID and Mouse.flag:
-            #pyautogui.click()
+            pyautogui.click()
             print('Left Click')
             Mouse.flag = False
         elif gesture == Gest.INDEX and Mouse.flag:
