@@ -103,7 +103,7 @@ class Hand_Recog:
 
         Hand_Recog.prev_gesture = current_gesture
 
-        if Hand_Recog.frame_count > 10 :
+        if Hand_Recog.frame_count > 4 :
             Hand_Recog.ori_gesture = current_gesture
         return Hand_Recog.ori_gesture
 
@@ -126,17 +126,17 @@ class Mouse:
         if gesture == Gest.V_GEST:
             print('Move Mouse')
             Mouse.flag = True
-            #pyautogui.moveTo(int(sx*tx), int(sy*ty), duration = 0.1)
+            pyautogui.moveTo(int(sx*tx), int(sy*ty), duration = 0.1)
         elif gesture == Gest.MID and Mouse.flag:
             #pyautogui.click()
             print('Left Click')
             Mouse.flag = False
         elif gesture == Gest.INDEX and Mouse.flag:
-            #pyautogui.click(button='right')
+            pyautogui.click(button='right')
             print('Right Click')
             Mouse.flag = False
         elif gesture == Gest.TWO_FINGER_CLOSED and Mouse.flag:
-            #pyautogui.doubleClick()
+            pyautogui.doubleClick()
             print('Double Click')
             Mouse.flag = False
         
@@ -204,7 +204,6 @@ class Gest_Ctrl:
         elif gesture == Gest.TWO_FINGER_CLOSED and flag:
             #pyautogui.doubleClick()
             flag = False
-
             print('Double Click')
         
 
@@ -223,7 +222,7 @@ class Gest_Ctrl:
             print('Hi')
     
     def start(self):
-        with mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
+        with mp_hands.Hands(max_num_hands = 1,min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
             while Gest_Ctrl.cap.isOpened() and Gest_Ctrl.gc_mode:
                 success, image = Gest_Ctrl.cap.read()
                 if not success:
