@@ -113,15 +113,43 @@ class Mouse:
     trial = True
     flag = False
     grabflag = False
+    prev_hand = None
+
     def get_dz(point):
         return abs(Gest_Ctrl.hand_result.landmark[point[0]].z - Gest_Ctrl.hand_result.landmark[point[1]].z)
-    def move_mouse(gesture):
+    
+    def get_position():
         point = 9
         position = [Gest_Ctrl.hand_result.landmark[point].x ,Gest_Ctrl.hand_result.landmark[point].y]
-        (sx,sy)=pyautogui.size()
-        (mx_old,my_old) = pyautogui.position()
-        tx = position[0]
-        ty = position[1]
+        sx,sy = pyautogui.size()
+        x_old,y_old = pyautogui.position()
+        x = int(position[0]*sx)
+        y = int(position[1]*sy)
+        if Mouse.prev_hand is None:
+            Mouse.prev_hand = x,y
+        delta_x = x - Mouse.prev_hand[0]
+        delta_y = y - Mouse.prev_hand[1]
+
+        distsq = delta_x**2 + delta_y**2
+        ratio = 1
+        Mouse.prev_hand = [ x,y ]
+        if distsq < 25:
+            ratio = 0
+        elif distsq < 100:
+            ratio = 1.25
+        elif distsq < 400:
+            ratio = 1.5
+        elif distsq < 900:
+            ratio = 1.75
+        else:
+            ratio = 2
+        x , y = x_old + delta_x*ratio , y_old + delta_y*ratio
+        print("r " , ratio)
+        return (x,y)
+
+    def move_mouse(gesture):
+        
+        x,y = Mouse.get_position()
         
         if gesture != Gest.FIST and Mouse.grabflag:
             Mouse.grabflag = False
@@ -129,13 +157,13 @@ class Mouse:
         if gesture == Gest.V_GEST:
             print('Move Mouse')
             Mouse.flag = True
-            pyautogui.moveTo(int(sx*tx), int(sy*ty), duration = 0.1)
+            pyautogui.moveTo(x, y, duration = 0.1)
         elif gesture == Gest.FIST:
             print('Grab')
             if not Mouse.grabflag : 
                 Mouse.grabflag = True
                 pyautogui.mouseDown(button = "left")
-            pyautogui.moveTo(int(sx*tx), int(sy*ty), duration = 0.1)
+            pyautogui.moveTo(x, y, duration = 0.1)
         elif gesture == Gest.MID and Mouse.flag:
             pyautogui.click()
             print('Left Click')
@@ -261,4 +289,5 @@ class Gest_Ctrl:
 
 gc1 = Gest_Ctrl()
 gc1.start()
+
 
