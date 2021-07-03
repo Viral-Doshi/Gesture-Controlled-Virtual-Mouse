@@ -134,19 +134,19 @@ class Mouse:
         ratio = 1
         Mouse.prev_hand = [x,y]
 
-        # if distsq <= 25:
-        #     ratio = 0
-        # elif distsq <= 900:
-        #     ratio = 0.07 * (distsq ** (1/2))
-        # else:
-        #     ratio = 2.1
-
-        if distsq < 25:
+        if distsq <= 25:
             ratio = 0
         elif distsq <= 900:
-            ratio = math.e ** (0.042 * math.sqrt(distsq)) - 0.9
+            ratio = 0.07 * (distsq ** (1/2))
         else:
-            ratio = 2.625
+            ratio = 2.1
+
+        #if distsq < 25:
+        #    ratio = 0
+        #elif distsq <= 900:
+        #    ratio = math.e ** (0.042 * math.sqrt(distsq)) - 0.9
+        #else:
+        #    ratio = 2.625
 
         x , y = x_old + delta_x*ratio , y_old + delta_y*ratio
         print("r " , ratio)
