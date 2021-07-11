@@ -112,7 +112,16 @@ class Mouse:
     trial = True
     flag = False
     grabflag = False
+    pinchstartycoord = None
+    prevpinchlv = 0
+    pinchlv = 0
+    framecount = 0
     prev_hand = None
+
+    def getpinchlv():
+        dist = round((Mouse.pinchstartycoord - Gest_Ctrl.hand_result.landmark[8].y)*10,1)
+        #print("pinch lv ",dist)
+        return dist
 
     def get_dz(point):
         return abs(Gest_Ctrl.hand_result.landmark[point[0]].z - Gest_Ctrl.hand_result.landmark[point[1]].z)
@@ -155,9 +164,15 @@ class Mouse:
         
         x,y = Mouse.get_position()
         
+        #flag reset
         if gesture != Gest.FIST and Mouse.grabflag:
             Mouse.grabflag = False
             pyautogui.mouseUp(button = "left")
+        if gesture != Gest.PINCH and Mouse.pinchstartycoord is not None:
+            print("pinch lv STOP " , Mouse.pinchlv)
+            Mouse.pinchstartycoord = None
+        
+        #gesture
         if gesture == Gest.V_GEST:
             print('Move Mouse')
             Mouse.flag = True
@@ -181,7 +196,26 @@ class Mouse:
             print('Double Click')
             Mouse.flag = False
         elif gesture == Gest.PINCH:
-            print("pinch")
+            if Mouse.pinchstartycoord is None:
+                Mouse.pinchstartycoord = Gest_Ctrl.hand_result.landmark[8].y
+                Mouse.pinchlv = 0
+                Mouse.prevpinchlv = 0
+                Mouse.framecount = 0
+                print("pinch INIT")
+            else:
+                #hold final position for 5 frames to change volume
+                if Mouse.framecount == 5:
+                    Mouse.framecount = 0
+                    Mouse.pinchlv = Mouse.prevpinchlv
+                    print("pinch lv set to ", Mouse.pinchlv)
+                lv =  Mouse.getpinchlv()
+                if abs(Mouse.prevpinchlv - lv) < 0.3 :
+                    Mouse.framecount += 1
+                else:
+                    Mouse.prevpinchlv = lv
+                    Mouse.framecount = 0
+                
+            
         
 
 class Gest_Ctrl:
