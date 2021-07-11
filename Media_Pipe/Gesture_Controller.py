@@ -284,6 +284,8 @@ class Gest_Ctrl:
                     Mouse.move_mouse(gest_name)
                     for hand_landmarks in results.multi_hand_landmarks:
                         mp_drawing.draw_landmarks(image, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+                else:
+                    Mouse.prev_hand = None
                 cv2.imshow('MediaPipe Hands', image)
                 if cv2.waitKey(5) & 0xFF == 13:
                     break
