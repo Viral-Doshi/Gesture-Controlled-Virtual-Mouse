@@ -4,6 +4,11 @@ import pyautogui
 import numpy as np
 import math
 from enum import IntEnum
+#system volume control
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+
 pyautogui.FAILSAFE = False
 
 mp_drawing = mp.solutions.drawing_utils
@@ -122,7 +127,21 @@ class Mouse:
         dist = round((Mouse.pinchstartycoord - Gest_Ctrl.hand_result.landmark[8].y)*10,1)
         #print("pinch lv ",dist)
         return dist
-
+    def changesystemvolume():
+        devices = AudioUtilities.GetSpeakers()
+        interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+        volume = cast(interface, POINTER(IAudioEndpointVolume))
+        # Get current volume 
+        currentVolumeLv = volume.GetMasterVolumeLevelScalar()
+        #print("curr vol",currentVolumeLv)
+        currentVolumeLv += Mouse.pinchlv/50.0
+        if currentVolumeLv > 1.0:
+            currentVolumeLv = 1.0
+        elif currentVolumeLv < 0.0:
+            currentVolumeLv = 0.0
+        volume.SetMasterVolumeLevelScalar(currentVolumeLv, None)
+        #print("changed vol",volume.GetMasterVolumeLevelScalar())
+    
     def get_dz(point):
         return abs(Gest_Ctrl.hand_result.landmark[point[0]].z - Gest_Ctrl.hand_result.landmark[point[1]].z)
     
@@ -207,6 +226,7 @@ class Mouse:
                 if Mouse.framecount == 5:
                     Mouse.framecount = 0
                     Mouse.pinchlv = Mouse.prevpinchlv
+                    Mouse.changesystemvolume()
                     print("pinch lv set to ", Mouse.pinchlv)
                 lv =  Mouse.getpinchlv()
                 if abs(Mouse.prevpinchlv - lv) < 0.3 :
