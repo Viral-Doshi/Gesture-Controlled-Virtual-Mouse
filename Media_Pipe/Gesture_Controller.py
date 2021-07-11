@@ -4,6 +4,11 @@ import pyautogui
 import numpy as np
 import math
 from enum import IntEnum
+#system volume control
+from ctypes import cast, POINTER
+from comtypes import CLSCTX_ALL
+from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+
 pyautogui.FAILSAFE = False
 
 mp_drawing = mp.solutions.drawing_utils
@@ -16,10 +21,13 @@ class Gest(IntEnum):
     MID = 4
     INDEX = 8
     THUMB = 16
+    LAST3 = 7
+    LAST4 = 15
     PALM = 31
     FIRST2 = 12
     V_GEST = 33
     TWO_FINGER_CLOSED = 34
+    PINCH = 35
 
 
 
@@ -28,14 +36,7 @@ class Hand_Recog:
     ori_gesture = Gest.PALM
     prev_gesture = Gest.PALM
     frame_count = 0
-
-    #def render_vector(frame, hand_results):
-    #    points = [[8,0],[12,0]]
-    #    for point in points:
-    #        s_cord = (int(hand_results.landmark[point[0]].x * Gest_Ctrl.CAM_WIDTH), int(hand_results.landmark[point[0]].y * Gest_Ctrl.CAM_HEIGHT))
-    #        e_cord = (int(hand_results.landmark[point[1]].x * Gest_Ctrl.CAM_WIDTH), int(hand_results.landmark[point[1]].y * Gest_Ctrl.CAM_HEIGHT))
-    #        frame = cv2.line(frame, s_cord, e_cord, (0,255,150), 9)
-    #    return frame
+    
     def get_signed_dist(point):
         sign = -1
         if Gest_Ctrl.hand_result.landmark[point[0]].y < Gest_Ctrl.hand_result.landmark[point[1]].y:
@@ -77,7 +78,10 @@ class Hand_Recog:
     
     def get_gesture():
         current_gesture = Gest.PALM
-        if Gest.FIRST2 == Hand_Recog.finger :
+        if Hand_Recog.finger in [Gest.LAST3,Gest.LAST4] and Hand_Recog.get_dist([8,4]) < 0.05:
+            current_gesture = Gest.PINCH
+            #print(Hand_Recog.get_dist([8,4]))
+        elif Gest.FIRST2 == Hand_Recog.finger :
             point = [[8,12],[5,9]]
             dist1 = Hand_Recog.get_dist(point[0])
             dist2 = Hand_Recog.get_dist(point[1])
@@ -113,8 +117,31 @@ class Mouse:
     trial = True
     flag = False
     grabflag = False
+    pinchstartycoord = None
+    prevpinchlv = 0
+    pinchlv = 0
+    framecount = 0
     prev_hand = None
 
+    def getpinchlv():
+        dist = round((Mouse.pinchstartycoord - Gest_Ctrl.hand_result.landmark[8].y)*10,1)
+        #print("pinch lv ",dist)
+        return dist
+    def changesystemvolume():
+        devices = AudioUtilities.GetSpeakers()
+        interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
+        volume = cast(interface, POINTER(IAudioEndpointVolume))
+        # Get current volume 
+        currentVolumeLv = volume.GetMasterVolumeLevelScalar()
+        #print("curr vol",currentVolumeLv)
+        currentVolumeLv += Mouse.pinchlv/50.0
+        if currentVolumeLv > 1.0:
+            currentVolumeLv = 1.0
+        elif currentVolumeLv < 0.0:
+            currentVolumeLv = 0.0
+        volume.SetMasterVolumeLevelScalar(currentVolumeLv, None)
+        #print("changed vol",volume.GetMasterVolumeLevelScalar())
+    
     def get_dz(point):
         return abs(Gest_Ctrl.hand_result.landmark[point[0]].z - Gest_Ctrl.hand_result.landmark[point[1]].z)
     
@@ -149,16 +176,22 @@ class Mouse:
         #    ratio = 2.625
 
         x , y = x_old + delta_x*ratio , y_old + delta_y*ratio
-        print("r " , ratio)
+        #print("r " , ratio)
         return (x,y)
 
     def move_mouse(gesture):
         
         x,y = Mouse.get_position()
         
+        #flag reset
         if gesture != Gest.FIST and Mouse.grabflag:
             Mouse.grabflag = False
             pyautogui.mouseUp(button = "left")
+        if gesture != Gest.PINCH and Mouse.pinchstartycoord is not None:
+            print("pinch lv STOP " , Mouse.pinchlv)
+            Mouse.pinchstartycoord = None
+        
+        #gesture
         if gesture == Gest.V_GEST:
             print('Move Mouse')
             Mouse.flag = True
@@ -181,34 +214,29 @@ class Mouse:
             pyautogui.doubleClick()
             print('Double Click')
             Mouse.flag = False
+        elif gesture == Gest.PINCH:
+            if Mouse.pinchstartycoord is None:
+                Mouse.pinchstartycoord = Gest_Ctrl.hand_result.landmark[8].y
+                Mouse.pinchlv = 0
+                Mouse.prevpinchlv = 0
+                Mouse.framecount = 0
+                print("pinch INIT")
+            else:
+                #hold final position for 5 frames to change volume
+                if Mouse.framecount == 5:
+                    Mouse.framecount = 0
+                    Mouse.pinchlv = Mouse.prevpinchlv
+                    Mouse.changesystemvolume()
+                    print("pinch lv set to ", Mouse.pinchlv)
+                lv =  Mouse.getpinchlv()
+                if abs(Mouse.prevpinchlv - lv) < 0.3 :
+                    Mouse.framecount += 1
+                else:
+                    Mouse.prevpinchlv = lv
+                    Mouse.framecount = 0
+                
+            
         
-        
-#        damping = 2 # hyperparameter we will have to adjust
-#        tx = position[0]
-#        ty = position[1]
-#        if self.trial:
-#            self.trial, self.tx_old, self.ty_old = false, tx, ty
-        
-#        delta_tx = tx - self.tx_old
-#        delta_ty = ty - self.ty_old
-#        self.tx_old,self.ty_old = tx,ty
-        
-#        if (gesture == 3):
-#            self.flag = 0
-#            mx = mx_old + (delta_tx*sx) // (camx*damping)
-#            my = my_old + (delta_ty*sy) // (camy*damping)            
-#            pyautogui.moveto(mx,my, duration = 0.1)
-
-#        elif(gesture == gesture.T):
-#            if self.flag == 0:
-#                pyautogui.doubleclick()
-#                self.flag = 1
-#        elif(gesture == 1):
-#            print('1 finger open')
-
-        
-
-
 
 class Gest_Ctrl:
     gc_mode = 0
@@ -222,36 +250,7 @@ class Gest_Ctrl:
         Gest_Ctrl.cap = cv2.VideoCapture(0)
         Gest_Ctrl.CAM_HEIGHT = Gest_Ctrl.cap.get(cv2.CAP_PROP_FRAME_HEIGHT)
         Gest_Ctrl.CAM_WIDTH = Gest_Ctrl.cap.get(cv2.CAP_PROP_FRAME_WIDTH)
-        
-    def move_mouse(self, gesture):
-        point = 9
-        flag = True
-        position = [Gest_Ctrl.hand_result.landmark[point].x ,Gest_Ctrl.hand_result.landmark[point].y]
-        (sx,sy)=pyautogui.size()
-        (mx_old,my_old) = pyautogui.position()
-        tx = position[0]
-        ty = position[1]
-        if gesture == Gest.V_GEST:
-            flag = True
-            #pyautogui.moveTo(int(sx*tx), int(sy*ty), duration = 0.1)
-            print('Move Mouse')
-        elif gesture == Gest.MID and flag:
-            #pyautogui.click()
-            flag = False
-            print('Left Click')
-        elif gesture == Gest.INDEX and flag:
-            #pyautogui.click(button='right')
-            flag = False
-            print('Right Click')
-        elif gesture == Gest.TWO_FINGER_CLOSED and flag:
-            #pyautogui.doubleClick()
-            flag = False
-            print('Double Click')
-        
-
-        
-
-
+    
     def calculate_position(self):
         final_x = (Gest_Ctrl.hand_result.landmark[8].x +  Gest_Ctrl.hand_result.landmark[12].x)/2
         final_y = (Gest_Ctrl.hand_result.landmark[8].y +  Gest_Ctrl.hand_result.landmark[12].y)/2
@@ -279,7 +278,6 @@ class Gest_Ctrl:
                 if results.multi_hand_landmarks:
                     Gest_Ctrl.hand_result = results.multi_hand_landmarks[0]
                     pos = self.calculate_position()
-                    #self.move_mouse()
                     ##hand
                     image = Hand_Recog.render_finger_state(image)
                     gest_name = Hand_Recog.get_gesture()
