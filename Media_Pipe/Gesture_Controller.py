@@ -9,6 +9,7 @@ from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
 from google.protobuf.json_format import MessageToDict
+import screen_brightness_control as sbcontrol
 
 pyautogui.FAILSAFE = False
 
@@ -29,7 +30,6 @@ class Gest(IntEnum):
     V_GEST = 33
     TWO_FINGER_CLOSED = 34
     PINCH = 35
-
 
 
 class Hand_Recog:
@@ -118,16 +118,34 @@ class Mouse:
     trial = True
     flag = False
     grabflag = False
+    pinchstartxcoord = None
     pinchstartycoord = None
+    pinchdirectionflag = None
     prevpinchlv = 0
     pinchlv = 0
     framecount = 0
     prev_hand = None
-
-    def getpinchlv():
+    
+    def getpinchylv():
         dist = round((Mouse.pinchstartycoord - Gest_Ctrl.hand_result.landmark[8].y)*10,1)
         #print("pinch lv ",dist)
         return dist
+    def getpinchxlv():
+        dist = round((Gest_Ctrl.hand_result.landmark[8].x - Mouse.pinchstartxcoord)*10,1)
+        #print("pinch lv ",dist)
+        return dist
+    
+    def changesystembrightness():
+        #print('bright change')
+        currentBrightnessLv = sbcontrol.get_brightness()/100.0
+        currentBrightnessLv += Mouse.pinchlv/50.0
+        if currentBrightnessLv > 1.0:
+            currentBrightnessLv = 1.0
+        elif currentBrightnessLv < 0.0:
+            currentBrightnessLv = 0.0
+        
+        sbcontrol.fade_brightness(int(100*currentBrightnessLv) , start = sbcontrol.get_brightness())
+    
     def changesystemvolume():
         devices = AudioUtilities.GetSpeakers()
         interface = devices.Activate(IAudioEndpointVolume._iid_, CLSCTX_ALL, None)
@@ -217,6 +235,7 @@ class Mouse:
             Mouse.flag = False
         elif gesture == Gest.PINCH:
             if Mouse.pinchstartycoord is None:
+                Mouse.pinchstartxcoord = Gest_Ctrl.hand_result.landmark[8].x
                 Mouse.pinchstartycoord = Gest_Ctrl.hand_result.landmark[8].y
                 Mouse.pinchlv = 0
                 Mouse.prevpinchlv = 0
@@ -227,15 +246,31 @@ class Mouse:
                 if Mouse.framecount == 5:
                     Mouse.framecount = 0
                     Mouse.pinchlv = Mouse.prevpinchlv
-                    Mouse.changesystemvolume()
+                    if Mouse.pinchdirectionflag == True:
+                        Mouse.changesystembrightness() #x
+                    elif Mouse.pinchdirectionflag == False:
+                        Mouse.changesystemvolume() #y
+                    
                     print("pinch lv set to ", Mouse.pinchlv)
-                lv =  Mouse.getpinchlv()
-                if abs(Mouse.prevpinchlv - lv) < 0.3 :
-                    Mouse.framecount += 1
-                else:
-                    Mouse.prevpinchlv = lv
-                    Mouse.framecount = 0
+                lvx =  Mouse.getpinchxlv()
+                lvy =  Mouse.getpinchylv()
                 
+                if abs(lvy) > abs(lvx) and abs(lvy) > 0.3:
+                    #lvy
+                    Mouse.pinchdirectionflag = False
+                    if abs(Mouse.prevpinchlv - lvy) < 0.3 :
+                        Mouse.framecount += 1
+                    else:
+                        Mouse.prevpinchlv = lvy
+                        Mouse.framecount = 0
+                elif abs(lvx) > 0.3:
+                    #lvx
+                    Mouse.pinchdirectionflag = True
+                    if abs(Mouse.prevpinchlv - lvx) < 0.3 :
+                        Mouse.framecount += 1
+                    else:
+                        Mouse.prevpinchlv = lvx
+                        Mouse.framecount = 0
             
         
 
@@ -264,7 +299,7 @@ class Gest_Ctrl:
             print('Hi')
     
     def start(self):
-        with mp_hands.Hands(max_num_hands = 2,min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
+        with mp_hands.Hands(max_num_hands = 1,min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
             while Gest_Ctrl.cap.isOpened() and Gest_Ctrl.gc_mode:
                 success, image = Gest_Ctrl.cap.read()
                 if not success:
@@ -274,7 +309,7 @@ class Gest_Ctrl:
                 image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
                 image.flags.writeable = False
                 results = hands.process(image)
-                
+                '''
                 try:
                     
                     handedness_dict = MessageToDict(results.multi_handedness[0])
@@ -286,6 +321,7 @@ class Gest_Ctrl:
                     print(handedness_dict['classification'][0]['label'])
                 except:
                     print("No hand Label")
+                '''
                 image.flags.writeable = True
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
                 if results.multi_hand_landmarks:
