@@ -8,6 +8,7 @@ from enum import IntEnum
 from ctypes import cast, POINTER
 from comtypes import CLSCTX_ALL
 from pycaw.pycaw import AudioUtilities, IAudioEndpointVolume
+from google.protobuf.json_format import MessageToDict
 
 pyautogui.FAILSAFE = False
 
@@ -263,16 +264,23 @@ class Gest_Ctrl:
             print('Hi')
     
     def start(self):
-        with mp_hands.Hands(max_num_hands = 1,min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
+        with mp_hands.Hands(max_num_hands = 2,min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
             while Gest_Ctrl.cap.isOpened() and Gest_Ctrl.gc_mode:
                 success, image = Gest_Ctrl.cap.read()
                 if not success:
                     print("Ignoring empty camera frame.")
                     continue
-
+                
                 image = cv2.cvtColor(cv2.flip(image, 1), cv2.COLOR_BGR2RGB)
                 image.flags.writeable = False
                 results = hands.process(image)
+                
+                try:
+                    
+                    handedness_dict = MessageToDict(results.multi_handedness[0])
+                    print(handedness_dict['classification'][0]['label'])
+                except:
+                    print("No hand Label")
                 image.flags.writeable = True
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
                 if results.multi_hand_landmarks:
