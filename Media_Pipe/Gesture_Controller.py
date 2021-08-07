@@ -281,6 +281,11 @@ class Gest_Ctrl:
                     print(handedness_dict['classification'][0]['label'])
                 except:
                     print("No hand Label")
+                try:
+                    handedness_dict = MessageToDict(results.multi_handedness[1])
+                    print(handedness_dict['classification'][0]['label'])
+                except:
+                    print("No hand Label")
                 image.flags.writeable = True
                 image = cv2.cvtColor(image, cv2.COLOR_RGB2BGR)
                 if results.multi_hand_landmarks:
