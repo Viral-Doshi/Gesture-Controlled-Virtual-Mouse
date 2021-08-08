@@ -51,20 +51,23 @@ class Hand_Recog:
     def set_hand_result(self, hand_result):
         self.hand_result = hand_result
 
-    def get_signed_dist(point, hand_result):
+    def get_signed_dist(self, point):
         sign = -1
-        if hand_result.landmark[point[0]].y < hand_result.landmark[point[1]].y:
+        if self.hand_result.landmark[point[0]].y < self.hand_result.landmark[point[1]].y:
             sign = 1
-        dist = (hand_result.landmark[point[0]].x - hand_result.landmark[point[1]].x)**2
-        dist += (hand_result.landmark[point[0]].y - hand_result.landmark[point[1]].y)**2
+        dist = (self.hand_result.landmark[point[0]].x - self.hand_result.landmark[point[1]].x)**2
+        dist += (self.hand_result.landmark[point[0]].y - self.hand_result.landmark[point[1]].y)**2
         dist = math.sqrt(dist)
         return dist*sign
     
-    def get_dist(point, hand_result):
-        dist = (hand_result.landmark[point[0]].x - hand_result.landmark[point[1]].x)**2
-        dist += (hand_result.landmark[point[0]].y - hand_result.landmark[point[1]].y)**2
+    def get_dist(self, point):
+        dist = (self.hand_result.landmark[point[0]].x - self.hand_result.landmark[point[1]].x)**2
+        dist += (self.hand_result.landmark[point[0]].y - self.hand_result.landmark[point[1]].y)**2
         dist = math.sqrt(dist)
         return dist
+    
+    def get_dz(self,point):
+        return abs(self.hand_result.landmark[point[0]].z - self.hand_result.landmark[point[1]].z)
     
     #def get_mxdist(point, hand_result): #manhaten x distance
     #    return hand_result.landmark[point[0]].x - hand_result.landmark[point[1]].x
@@ -79,8 +82,8 @@ class Hand_Recog:
         self.finger = self.finger | 0 #thumb
         for idx,point in enumerate(points):
             
-            dist = Hand_Recog.get_signed_dist(point[:2],self.hand_result)
-            dist2 = Hand_Recog.get_signed_dist(point[1:],self.hand_result)
+            dist = self.get_signed_dist(point[:2])
+            dist2 = self.get_signed_dist(point[1:])
             
             try:
                 ratio = round(dist/dist2,1)
@@ -104,7 +107,7 @@ class Hand_Recog:
             return Gest.PALM
 
         current_gesture = Gest.PALM
-        if self.finger in [Gest.LAST3,Gest.LAST4] and Hand_Recog.get_dist([8,4],self.hand_result) < 0.05:
+        if self.finger in [Gest.LAST3,Gest.LAST4] and self.get_dist([8,4]) < 0.05:
             if self.hand_label == HLabel.MINOR :
                 current_gesture = Gest.PINCH_MINOR
             else:
@@ -112,8 +115,8 @@ class Hand_Recog:
             #print(Hand_Recog.get_dist([8,4]))
         elif Gest.FIRST2 == self.finger :
             point = [[8,12],[5,9]]
-            dist1 = Hand_Recog.get_dist(point[0])
-            dist2 = Hand_Recog.get_dist(point[1])
+            dist1 = self.get_dist(point[0])
+            dist2 = self.get_dist(point[1])
             ratio = dist1/dist2
             #print(ratio)
             if ratio > 1.7:
@@ -121,7 +124,7 @@ class Hand_Recog:
                 current_gesture = Gest.V_GEST
             else:
                 #print("z : ",Mouse.get_dz([8,12]))
-                if Mouse.get_dz([8,12]) < 0.1:
+                if self.get_dz([8,12]) < 0.1:
                     #print('2 fingers closed')
                     current_gesture =  Gest.TWO_FINGER_CLOSED
                 else:
@@ -155,12 +158,12 @@ class Mouse:
     framecount = 0
     prev_hand = None
     
-    def getpinchylv():
-        dist = round((Mouse.pinchstartycoord - Gest_Ctrl.hand_result.landmark[8].y)*10,1)
+    def getpinchylv(hand_result):
+        dist = round((Mouse.pinchstartycoord - hand_result.landmark[8].y)*10,1)
         #print("pinch lv ",dist)
         return dist
-    def getpinchxlv():
-        dist = round((Gest_Ctrl.hand_result.landmark[8].x - Mouse.pinchstartxcoord)*10,1)
+    def getpinchxlv(hand_result):
+        dist = round((hand_result.landmark[8].x - Mouse.pinchstartxcoord)*10,1)
         #print("pinch lv ",dist)
         return dist
     
@@ -189,9 +192,6 @@ class Mouse:
             currentVolumeLv = 0.0
         volume.SetMasterVolumeLevelScalar(currentVolumeLv, None)
         #print("changed vol",volume.GetMasterVolumeLevelScalar())
-    
-    #def get_dz(point):
-    #    return abs(Gest_Ctrl.hand_result.landmark[point[0]].z - Gest_Ctrl.hand_result.landmark[point[1]].z)
     
     def get_position(hand_result):
         point = 9
@@ -229,7 +229,9 @@ class Mouse:
 
     def handle_controls(gesture, hand_result):
         
-        x,y = Mouse.get_position(hand_result)
+        x,y = None,None
+        if gesture != Gest.PALM :
+            x,y = Mouse.get_position(hand_result)
         
         #flag reset
         if gesture != Gest.FIST and Mouse.grabflag:
@@ -268,8 +270,8 @@ class Mouse:
             print('PINCH MINOR')
         elif gesture == Gest.PINCH_MAJOR:
             if Mouse.pinchstartycoord is None:
-                Mouse.pinchstartxcoord = Gest_Ctrl.hand_result.landmark[8].x
-                Mouse.pinchstartycoord = Gest_Ctrl.hand_result.landmark[8].y
+                Mouse.pinchstartxcoord = hand_result.landmark[8].x
+                Mouse.pinchstartycoord = hand_result.landmark[8].y
                 Mouse.pinchlv = 0
                 Mouse.prevpinchlv = 0
                 Mouse.framecount = 0
@@ -285,8 +287,8 @@ class Mouse:
                         Mouse.changesystemvolume() #y
                     
                     print("pinch lv set to ", Mouse.pinchlv)
-                lvx =  Mouse.getpinchxlv()
-                lvy =  Mouse.getpinchylv()
+                lvx =  Mouse.getpinchxlv(hand_result)
+                lvy =  Mouse.getpinchylv(hand_result)
                 
                 if abs(lvy) > abs(lvx) and abs(lvy) > 0.3:
                     #lvy
