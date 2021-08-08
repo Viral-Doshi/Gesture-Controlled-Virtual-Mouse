@@ -52,6 +52,9 @@ class Hand_Recog:
         dist += (Gest_Ctrl.hand_result.landmark[point[0]].y - Gest_Ctrl.hand_result.landmark[point[1]].y)**2
         dist = math.sqrt(dist)
         return dist
+    
+    def get_mxdist(point): #manhaten x distance
+        return Gest_Ctrl.hand_result.landmark[point[0]].x - Gest_Ctrl.hand_result.landmark[point[1]].x
 
     def render_finger_state(frame):
         points = [[8,5,0],[12,9,0],[16,13,0],[20,17,0]]
@@ -98,6 +101,7 @@ class Hand_Recog:
                     current_gesture =  Gest.TWO_FINGER_CLOSED
                 else:
                     current_gesture =  Gest.MID
+            
         else:
             current_gesture =  Hand_Recog.finger
         
@@ -233,6 +237,8 @@ class Mouse:
             pyautogui.doubleClick()
             print('Double Click')
             Mouse.flag = False
+        elif gesture == Gest.PINKY:
+            print('pinky ksndkskk')
         elif gesture == Gest.PINCH:
             if Mouse.pinchstartycoord is None:
                 Mouse.pinchstartxcoord = Gest_Ctrl.hand_result.landmark[8].x
