@@ -196,14 +196,17 @@ class Mouse:
         #print("changed vol",volume.GetMasterVolumeLevelScalar())
     
     def scrollVertical():
-        print('Scroll vERTICAL')
+        print('Scroll Vertical')
         pyautogui.scroll(120 if Mouse.pinchlv>0.0 else -120)
         
     
     def scrollHorizontal():
         print('Scroll Horizontal')
-        with pyautogui.press('shift'):
-            pyautogui.scroll(120 if Mouse.pinchlv>0.0 else -120)
+        pyautogui.keyDown('shift')
+        pyautogui.keyDown('ctrl')
+        pyautogui.scroll(-120 if Mouse.pinchlv>0.0 else 120)
+        pyautogui.keyUp('ctrl')
+        pyautogui.keyUp('shift')
 
     def get_position(hand_result):
         point = 9
