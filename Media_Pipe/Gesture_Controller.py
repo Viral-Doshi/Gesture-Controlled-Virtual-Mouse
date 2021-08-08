@@ -193,6 +193,12 @@ class Mouse:
         volume.SetMasterVolumeLevelScalar(currentVolumeLv, None)
         #print("changed vol",volume.GetMasterVolumeLevelScalar())
     
+    def scrollVertical():
+        print('Scroll vERTICAL')
+    
+    def scrollHorizontal():
+        print('Scroll Horizontal')
+
     def get_position(hand_result):
         point = 9
         position = [hand_result.landmark[point].x ,hand_result.landmark[point].y]
@@ -227,6 +233,46 @@ class Mouse:
         #print("r " , ratio)
         return (x,y)
 
+    def pinch_control(hand_result, controlHorizontal, controlVertical):
+        if Mouse.pinchstartycoord is None:
+            Mouse.pinchstartxcoord = hand_result.landmark[8].x
+            Mouse.pinchstartycoord = hand_result.landmark[8].y
+            Mouse.pinchlv = 0
+            Mouse.prevpinchlv = 0
+            Mouse.framecount = 0
+            print("pinch INIT")
+
+        else:
+            #hold final position for 5 frames to change volume
+            if Mouse.framecount == 5:
+                Mouse.framecount = 0
+                Mouse.pinchlv = Mouse.prevpinchlv
+                if Mouse.pinchdirectionflag == True:
+                    controlHorizontal() #x
+                elif Mouse.pinchdirectionflag == False:
+                    controlVertical() #y
+                    
+                print("pinch lv set to ", Mouse.pinchlv)
+            lvx =  Mouse.getpinchxlv(hand_result)
+            lvy =  Mouse.getpinchylv(hand_result)
+            
+            if abs(lvy) > abs(lvx) and abs(lvy) > 0.3:
+                #lvy
+                Mouse.pinchdirectionflag = False
+                if abs(Mouse.prevpinchlv - lvy) < 0.3 :
+                    Mouse.framecount += 1
+                else:
+                    Mouse.prevpinchlv = lvy
+                    Mouse.framecount = 0
+            elif abs(lvx) > 0.3:
+                #lvx
+                Mouse.pinchdirectionflag = True
+                if abs(Mouse.prevpinchlv - lvx) < 0.3 :
+                    Mouse.framecount += 1
+                else:
+                    Mouse.prevpinchlv = lvx
+                    Mouse.framecount = 0
+
     def handle_controls(gesture, hand_result):
         
         x,y = None,None
@@ -237,7 +283,7 @@ class Mouse:
         if gesture != Gest.FIST and Mouse.grabflag:
             Mouse.grabflag = False
             pyautogui.mouseUp(button = "left")
-        if gesture != Gest.PINCH_MAJOR and Mouse.pinchstartycoord is not None:
+        if gesture not in [Gest.PINCH_MAJOR, Gest.PINCH_MINOR] and Mouse.pinchstartycoord is not None:
             print("pinch lv STOP " , Mouse.pinchlv)
             Mouse.pinchstartycoord = None
         
@@ -264,49 +310,10 @@ class Mouse:
             pyautogui.doubleClick()
             print('Double Click')
             Mouse.flag = False
-        elif gesture == Gest.PINKY:
-            print('pinky ksndkskk')
         elif gesture == Gest.PINCH_MINOR:
-            print('PINCH MINOR')
+            Mouse.pinch_control(hand_result,Mouse.scrollHorizontal, Mouse.scrollVertical)
         elif gesture == Gest.PINCH_MAJOR:
-            if Mouse.pinchstartycoord is None:
-                Mouse.pinchstartxcoord = hand_result.landmark[8].x
-                Mouse.pinchstartycoord = hand_result.landmark[8].y
-                Mouse.pinchlv = 0
-                Mouse.prevpinchlv = 0
-                Mouse.framecount = 0
-                print("pinch INIT")
-            else:
-                #hold final position for 5 frames to change volume
-                if Mouse.framecount == 5:
-                    Mouse.framecount = 0
-                    Mouse.pinchlv = Mouse.prevpinchlv
-                    if Mouse.pinchdirectionflag == True:
-                        Mouse.changesystembrightness() #x
-                    elif Mouse.pinchdirectionflag == False:
-                        Mouse.changesystemvolume() #y
-                    
-                    print("pinch lv set to ", Mouse.pinchlv)
-                lvx =  Mouse.getpinchxlv(hand_result)
-                lvy =  Mouse.getpinchylv(hand_result)
-                
-                if abs(lvy) > abs(lvx) and abs(lvy) > 0.3:
-                    #lvy
-                    Mouse.pinchdirectionflag = False
-                    if abs(Mouse.prevpinchlv - lvy) < 0.3 :
-                        Mouse.framecount += 1
-                    else:
-                        Mouse.prevpinchlv = lvy
-                        Mouse.framecount = 0
-                elif abs(lvx) > 0.3:
-                    #lvx
-                    Mouse.pinchdirectionflag = True
-                    if abs(Mouse.prevpinchlv - lvx) < 0.3 :
-                        Mouse.framecount += 1
-                    else:
-                        Mouse.prevpinchlv = lvx
-                        Mouse.framecount = 0
-            
+            Mouse.pinch_control(hand_result,Mouse.changesystembrightness, Mouse.changesystemvolume)
         
 
 class Gest_Ctrl:
