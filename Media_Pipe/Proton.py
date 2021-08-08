@@ -18,19 +18,16 @@ from threading import Thread
 today = date.today()
 r = sr.Recognizer()
 keyboard = Controller()
-
 engine = pyttsx3.init('sapi5')
 engine = pyttsx3.init()
 voices = engine.getProperty('voices')
-# print(voices[1].id)
 engine.setProperty('voice', voices[0].id)
-
 
 # ----------------Variables------------------------
 file_exp_status = False
 path = ''
 files =[]
-is_awake = True             #Bot status
+is_awake = True  #Bot status
 
 # ------------------Functions----------------------
 def speak(audio):
@@ -48,16 +45,17 @@ def wish():
     else:
         speak("Good Evening!")  
 
-    print("I am Proton Sir and now fully awake! Please tell me how may I help you")
-    speak("I am Proton Sir and now fully awake! Please tell me how may I help you")
+    to_wish = "I am Proton Sir and now fully awake! Please tell me how may I help you"
+    print(to_wish)
+    speak(to_wish)
 
+# Set Microphone parameters
+with sr.Microphone() as source:
+        r.energy_threshold = 500 
+        r.dynamic_energy_threshold = False
 
-with sr.Microphone() as source:             #setting microphone parameters
-        #r.adjust_for_ambient_noise(source)
-        r.energy_threshold = 500            #threshold on amplitude of audio signals to pick
-        r.dynamic_energy_threshold = False  #disabling auto tuning of energy threshold
-
-def record_audio(): #to recognize, returns string
+# Audio to String
+def record_audio():
     with sr.Microphone() as source:
         r.pause_threshold = 0.8
         voice_data = ''
@@ -71,16 +69,14 @@ def record_audio(): #to recognize, returns string
             print('Sorry my Service is down... Plz try later')
         except sr.UnknownValueError:
             print("Couldn't Recognize that... Does that even make sense ")
-        #print(voice_data)
-
         return voice_data.lower()
 
 
-def respond(voice_data):    #to executes commands, string containing command as input 
+# Executes Commands (input: string)
+def respond(voice_data):
     global path, file_exp_status, files, is_awake
     print(voice_data)
     voice_data.replace('proton','')
-    #print(voice_data)
 
     if is_awake==False:
         if 'wake up' in voice_data in voice_data:
@@ -141,7 +137,8 @@ def respond(voice_data):    #to executes commands, string containing command as 
     elif 'stop gesture recognition' in voice_data:
         if Gesture_Controller.Gest_Ctrl.gc_mode:
             Gesture_Controller.Gest_Ctrl.gc_mode = 0
-        else: print('Gesture recognition is already inactive')
+        else:
+            print('Gesture recognition is already inactive')
         
     elif 'copy' in voice_data:
         with keyboard.pressed(Key.ctrl):
@@ -155,7 +152,7 @@ def respond(voice_data):    #to executes commands, string containing command as 
             keyboard.release('v')
         speak('Pasted')
 
-    # File Navigation Start
+    # File Navigation (Default Folder set to C://)
     elif 'list' in voice_data:
         counter = 0
         path = 'C://'
@@ -203,9 +200,9 @@ def respond(voice_data):    #to executes commands, string containing command as 
         print('I am not functioned to do this !')
 
 # ------------------Driver Code--------------------
+
 wish()
 while True:
     voice_data = record_audio()
     if 'proton' in voice_data:
-        #voice_data=voice_data[voice_data.find('proton'):]
         respond(voice_data)
