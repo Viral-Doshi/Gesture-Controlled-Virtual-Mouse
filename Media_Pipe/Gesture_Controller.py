@@ -150,6 +150,8 @@ class Mouse:
     trial = True
     flag = False
     grabflag = False
+    pinchmajorflag = False
+    pinchminorflag = False
     pinchstartxcoord = None
     pinchstartycoord = None
     pinchdirectionflag = None
@@ -195,9 +197,13 @@ class Mouse:
     
     def scrollVertical():
         print('Scroll vERTICAL')
+        pyautogui.scroll(120 if Mouse.pinchlv>0.0 else -120)
+        
     
     def scrollHorizontal():
         print('Scroll Horizontal')
+        with pyautogui.press('shift'):
+            pyautogui.scroll(120 if Mouse.pinchlv>0.0 else -120)
 
     def get_position(hand_result):
         point = 9
@@ -233,45 +239,44 @@ class Mouse:
         #print("r " , ratio)
         return (x,y)
 
-    def pinch_control(hand_result, controlHorizontal, controlVertical):
-        if Mouse.pinchstartycoord is None:
-            Mouse.pinchstartxcoord = hand_result.landmark[8].x
-            Mouse.pinchstartycoord = hand_result.landmark[8].y
-            Mouse.pinchlv = 0
-            Mouse.prevpinchlv = 0
-            Mouse.framecount = 0
-            print("pinch INIT")
+    def pinch_control_init(hand_result):
+        Mouse.pinchstartxcoord = hand_result.landmark[8].x
+        Mouse.pinchstartycoord = hand_result.landmark[8].y
+        Mouse.pinchlv = 0
+        Mouse.prevpinchlv = 0
+        Mouse.framecount = 0
+        print("pinch INIT")
 
-        else:
-            #hold final position for 5 frames to change volume
-            if Mouse.framecount == 5:
-                Mouse.framecount = 0
-                Mouse.pinchlv = Mouse.prevpinchlv
-                if Mouse.pinchdirectionflag == True:
-                    controlHorizontal() #x
-                elif Mouse.pinchdirectionflag == False:
-                    controlVertical() #y
+    def pinch_control(hand_result, controlHorizontal, controlVertical):
+        #hold final position for 5 frames to change volume
+        if Mouse.framecount == 5:
+            Mouse.framecount = 0
+            Mouse.pinchlv = Mouse.prevpinchlv
+            if Mouse.pinchdirectionflag == True:
+                controlHorizontal() #x
+            elif Mouse.pinchdirectionflag == False:
+                controlVertical() #y
                     
-                print("pinch lv set to ", Mouse.pinchlv)
-            lvx =  Mouse.getpinchxlv(hand_result)
-            lvy =  Mouse.getpinchylv(hand_result)
+            print("pinch lv set to ", Mouse.pinchlv)
+        lvx =  Mouse.getpinchxlv(hand_result)
+        lvy =  Mouse.getpinchylv(hand_result)
             
-            if abs(lvy) > abs(lvx) and abs(lvy) > 0.3:
-                #lvy
-                Mouse.pinchdirectionflag = False
-                if abs(Mouse.prevpinchlv - lvy) < 0.3 :
-                    Mouse.framecount += 1
-                else:
-                    Mouse.prevpinchlv = lvy
-                    Mouse.framecount = 0
-            elif abs(lvx) > 0.3:
-                #lvx
-                Mouse.pinchdirectionflag = True
-                if abs(Mouse.prevpinchlv - lvx) < 0.3 :
-                    Mouse.framecount += 1
-                else:
-                    Mouse.prevpinchlv = lvx
-                    Mouse.framecount = 0
+        if abs(lvy) > abs(lvx) and abs(lvy) > 0.3:
+            #lvy
+            Mouse.pinchdirectionflag = False
+            if abs(Mouse.prevpinchlv - lvy) < 0.3 :
+                Mouse.framecount += 1
+            else:
+                Mouse.prevpinchlv = lvy
+                Mouse.framecount = 0
+        elif abs(lvx) > 0.3:
+            #lvx
+            Mouse.pinchdirectionflag = True
+            if abs(Mouse.prevpinchlv - lvx) < 0.3 :
+                Mouse.framecount += 1
+            else:
+                Mouse.prevpinchlv = lvx
+                Mouse.framecount = 0
 
     def handle_controls(gesture, hand_result):
         
@@ -283,10 +288,13 @@ class Mouse:
         if gesture != Gest.FIST and Mouse.grabflag:
             Mouse.grabflag = False
             pyautogui.mouseUp(button = "left")
-        if gesture not in [Gest.PINCH_MAJOR, Gest.PINCH_MINOR] and Mouse.pinchstartycoord is not None:
+        if gesture != Gest.PINCH_MAJOR and Mouse.pinchmajorflag:
             print("pinch lv STOP " , Mouse.pinchlv)
-            Mouse.pinchstartycoord = None
-        
+            Mouse.pinchmajorflag = False
+        if gesture != Gest.PINCH_MINOR and Mouse.pinchminorflag:
+            print("pinch lv STOP " , Mouse.pinchlv)
+            Mouse.pinchminorflag = False
+
         #gesture
         if gesture == Gest.V_GEST:
             print('Move Mouse')
@@ -310,9 +318,17 @@ class Mouse:
             pyautogui.doubleClick()
             print('Double Click')
             Mouse.flag = False
+
         elif gesture == Gest.PINCH_MINOR:
+            if Mouse.pinchminorflag == False:
+                Mouse.pinch_control_init(hand_result)
+                Mouse.pinchminorflag = True
             Mouse.pinch_control(hand_result,Mouse.scrollHorizontal, Mouse.scrollVertical)
+        
         elif gesture == Gest.PINCH_MAJOR:
+            if Mouse.pinchmajorflag == False:
+                Mouse.pinch_control_init(hand_result)
+                Mouse.pinchmajorflag = True
             Mouse.pinch_control(hand_result,Mouse.changesystembrightness, Mouse.changesystemvolume)
         
 
