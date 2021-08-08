@@ -25,12 +25,13 @@ engine.setProperty('voice', voices[0].id)
 
 # ----------------Variables------------------------
 file_exp_status = False
-path = ''
 files =[]
+path = ''
 is_awake = True  #Bot status
 
 # ------------------Functions----------------------
-def speak(audio):
+def reply(audio):
+    print(audio)
     engine.say(audio)
     engine.runAndWait()
 
@@ -39,15 +40,13 @@ def wish():
     hour = int(datetime.datetime.now().hour)
 
     if hour>=0 and hour<12:
-        speak("Good Morning!")
+        reply("Good Morning!")
     elif hour>=12 and hour<18:
-        speak("Good Afternoon!")   
+        reply("Good Afternoon!")   
     else:
-        speak("Good Evening!")  
-
-    to_wish = "I am Proton Sir and now fully awake! Please tell me how may I help you"
-    print(to_wish)
-    speak(to_wish)
+        reply("Good Evening!")  
+        
+    reply("I am Proton Sir and now fully awake! Please tell me how may I help you")
 
 # Set Microphone parameters
 with sr.Microphone() as source:
@@ -62,24 +61,22 @@ def record_audio():
         audio = r.listen(source, phrase_time_limit=5)
 
         try:
-            #print('Starting Audio Recognition')
             voice_data = r.recognize_google(audio)
-            #print('Recognising')
         except sr.RequestError:
-            print('Sorry my Service is down... Plz try later')
+            reply('Sorry my Service is down. Plz check your Internet connection')
         except sr.UnknownValueError:
-            print("Couldn't Recognize that... Does that even make sense ")
+            reply("Couldn't Recognize that...")
         return voice_data.lower()
 
 
 # Executes Commands (input: string)
 def respond(voice_data):
-    global path, file_exp_status, files, is_awake
+    global file_exp_status, files, is_awake, path
     print(voice_data)
     voice_data.replace('proton','')
 
     if is_awake==False:
-        if 'wake up' in voice_data in voice_data:
+        if 'wake up' in voice_data:
             is_awake = True
             wish()
 
@@ -88,70 +85,65 @@ def respond(voice_data):
         wish()
 
     elif 'what is your name' in voice_data:
-        print('My name is Proton!')
-        speak('My name is Proton!')
+        reply('My name is Proton!')
 
     elif 'date' in voice_data:
-        print(today.strftime("%B %d, %Y"))
-        speak(today.strftime("%B %d, %Y"))
+        reply(today.strftime("%B %d, %Y"))
 
     elif 'time' in voice_data:
-        print(str(datetime.datetime.now()).split(" ")[1].split('.')[0])
-        speak(str(datetime.datetime.now()).split(" ")[1].split('.')[0])
+        reply(str(datetime.datetime.now()).split(" ")[1].split('.')[0])
 
     elif 'search' in voice_data:
-        speak('Searching for ' + voice_data.split('search')[1])
+        reply('Searching for ' + voice_data.split('search')[1])
         url = 'https://google.com/search?q=' + voice_data.split('search')[1]
         try:
             webbrowser.get().open(url)
-            speak('This is what I found Sir')
+            reply('This is what I found Sir')
         except:
-            speak('Please check your Internet')
+            reply('Please check your Internet')
 
     elif 'location' in voice_data:
-        location_status = True
-        if location_status == True:
-            print('Which place are you looking for ?')
-            speak('Which place are you looking for ?')
-            temp_audio = record_audio()
-            speak('Locating...')
-            url = 'https://google.nl/maps/place/' + temp_audio + '/&amp;'
-            try:
-                webbrowser.get().open(url)
-                speak('This is what I found Sir')
-            except:
-                speak('Please check your Internet')
+        reply('Which place are you looking for ?')
+        temp_audio = record_audio()
+        reply('Locating...')
+        url = 'https://google.nl/maps/place/' + temp_audio + '/&amp;'
+        try:
+            webbrowser.get().open(url)
+            reply('This is what I found Sir')
+        except:
+            reply('Please check your Internet')
 
     elif ('bye' in voice_data) or ('by' in voice_data):
-        print(voice_data)
-        print("Good bye Sir! Have a nice day.")
-        speak("Good bye Sir! Have a nice day.")
+        reply("Good bye Sir! Have a nice day.")
         is_awake = False
         
     # DYNAMIC CONTROLS
     elif 'launch gesture recognition' in voice_data:
-        gc = Gesture_Controller.Gest_Ctrl()
-        t = Thread(target = gc.start)
-        t.start()
+        if Gesture_Controller.GestureController.gc_mode:
+            reply('Gesture recognition is already active')
+        else:
+            gc = Gesture_Controller.GestureController()
+            t = Thread(target = gc.start)
+            t.start()
 
     elif 'stop gesture recognition' in voice_data:
-        if Gesture_Controller.Gest_Ctrl.gc_mode:
-            Gesture_Controller.Gest_Ctrl.gc_mode = 0
+        if Gesture_Controller.GestureController.gc_mode:
+            Gesture_Controller.GestureController.gc_mode = 0
         else:
-            print('Gesture recognition is already inactive')
+            reply('Gesture recognition is already inactive')
         
     elif 'copy' in voice_data:
         with keyboard.pressed(Key.ctrl):
             keyboard.press('c')
             keyboard.release('c')
-        speak('Copied')
+        reply('Copied')
           
     elif 'page' in voice_data or 'pest'  in voice_data or 'paste' in voice_data:
         with keyboard.pressed(Key.ctrl):
             keyboard.press('v')
             keyboard.release('v')
-        speak('Pasted')
-
+        reply('Pasted')
+        
     # File Navigation (Default Folder set to C://)
     elif 'list' in voice_data:
         counter = 0
@@ -161,7 +153,7 @@ def respond(voice_data):
             counter+=1
             print(str(counter) + ':  ' + f)
         file_exp_status = True
-        speak('These are the files in your root directory')
+        reply('These are the files in your root directory')
         
     elif file_exp_status == True:
         counter = 0   
@@ -176,16 +168,14 @@ def respond(voice_data):
                     for f in files:
                         counter+=1
                         print(str(counter) + ':  ' + f)
-                    speak('Opened Successfully')
+                    reply('Opened Successfully')
                     
                 except:
-                    print('You do not have permission to access this folder')
-                    speak('You do not have permission to access this folder')
+                    reply('You do not have permission to access this folder')
                                     
         if 'back' in voice_data:
             if path == 'C://':
-                print('Sorry, this is the root directory')
-                speak('Sorry, this is the root directory')
+                reply('Sorry, this is the root directory')
             else:
                 a = path.split('//')[:-2]
                 path = '//'.join(a)
@@ -194,10 +184,10 @@ def respond(voice_data):
                 for f in files:
                     counter+=1
                     print(str(counter) + ':  ' + f)
-                speak('ok')
+                reply('ok')
                    
     else: 
-        print('I am not functioned to do this !')
+        reply('I am not functioned to do this !')
 
 # ------------------Driver Code--------------------
 
