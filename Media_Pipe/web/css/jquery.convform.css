@@ -1,0 +1,509 @@
+* {
+   margin: 0px;
+   padding: 0px;
+   font-family: sans-serif;
+}
+
+.typing_loader{
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    -webkit-animation: typing 1s linear infinite alternate;
+    -moz-animation: typing 1s linear infinite alternate;
+    -ms-animation: typing 1s linear infinite alternate;
+    animation: typing 1s linear infinite alternate;
+    position: relative;
+    left: -12px;
+    margin: 7px 15px 6px;
+}
+.to .typing_loader {
+    animation: typing-black 1s linear infinite alternate;
+}
+@-webkit-keyframes typing{
+    0%{
+        background-color: rgba(255,255,255, 1);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,0.4),
+        24px 0px 0px 0px rgba(255,255,255,0.2);
+    }
+    50% {
+        background-color: rgba(255,255,255, 0.4);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,1),
+        24px 0px 0px 0px rgba(255,255,255,0.4);
+    }
+    100%{ background-color: rgba(255,255,255, 0.2);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,0.4),
+        24px 0px 0px 0px rgba(255,255,255,1);
+    }
+}
+
+@-moz-keyframes typing{
+    0%{
+        background-color: rgba(255,255,255, 1);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,0.4),
+        24px 0px 0px 0px rgba(255,255,255,0.2);
+    }
+    50% {
+        background-color: rgba(255,255,255, 0.4);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,1),
+        24px 0px 0px 0px rgba(255,255,255,0.4);
+    }
+    100%{ background-color: rgba(255,255,255, 0.2);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,0.4),
+        24px 0px 0px 0px rgba(255,255,255,1);
+    }
+}
+
+@keyframes typing-black{
+    0%{
+        background-color: rgba(74, 74, 74, 1);
+        box-shadow: 12px 0px 0px 0px rgba(74, 74, 74, 0.4),
+        24px 0px 0px 0px rgba(74, 74, 74, 0.2);
+    }
+    50% {
+        background-color: rgba(74, 74, 74, 0.4);
+        box-shadow: 12px 0px 0px 0px rgba(74, 74, 74, 1),
+        24px 0px 0px 0px rgba(74, 74, 74,0.4);
+    }
+    100%{ background-color: rgba(74, 74, 74, 0.2);
+        box-shadow: 12px 0px 0px 0px rgba(74, 74, 74,0.4),
+        24px 0px 0px 0px rgba(74, 74, 74,1);
+    }
+}
+@keyframes typing{
+    0%{
+        background-color: rgba(255,255,255, 1);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,0.4),
+        24px 0px 0px 0px rgba(255,255,255,0.2);
+    }
+    50% {
+        background-color: rgba(255,255,255, 0.4);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,1),
+        24px 0px 0px 0px rgba(255,255,255,0.4);
+    }
+    100%{ background-color: rgba(255,255,255, 0.2);
+        box-shadow: 12px 0px 0px 0px rgba(255,255,255,0.4),
+        24px 0px 0px 0px rgba(255,255,255,1);
+    }
+}
+
+form.convFormDynamic {
+    width: calc(100% - 33px);
+    margin: 10px auto 15px;
+    padding: 0 !important;
+    position: relative;
+    /* box-shadow: 0 0 5px 5px rgba(222, 222, 222, 0.4); */
+}
+
+form.convFormDynamic textarea.userInputDynamic {
+    border: none;
+    padding: 6px 6px;
+    outline: none;
+    font-size: 0.905rem;
+    float: left;
+    width: 72%;
+    height: 25%;
+    line-height: 1.3em;
+    min-height: 1.7em;
+    max-height: 10rem;
+    display: block;
+    max-width: 72%;
+    margin-right: 2.5%;
+}
+
+
+form.convFormDynamic input.userInputDynamic {
+    border: none;
+    padding: 7px 10px;
+    outline: none;
+    font-size: 0.905rem;
+    float: left;
+    width: calc(100% - 70px);
+    line-height: 1.3em;
+    min-height: 1.7em;
+    max-height: 10rem;
+    display: block;
+    max-width: 88%;
+    margin-right: 2.5%;
+}
+div.conv-form-wrapper:after {
+    content: '';
+    display: block;
+    clear: both;
+    width: 100%;
+    height: 1px;
+}
+div.conv-form-wrapper div#messages {
+    max-height: 71vh;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: auto !important;
+    overflow-y: scroll;
+    scrollbar-width: none;
+    -ms-overflow-style: none; /* IE 11 */
+}
+div.conv-form-wrapper * {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+}
+div.conv-form-wrapper div#messages:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+div.conv-form-wrapper {
+    position: relative;
+}
+div.conv-form-wrapper div.wrapper-messages {
+    position: relative;
+    height: 600px;
+    overflow-y: scroll;
+    transition: margin 0.1s;
+}
+div.conv-form-wrapper:before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    display: block;
+    height: 10px;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    background: linear-gradient(#000000, transparent);
+}
+@media (max-width: 767px) {
+    div.conv-form-wrapper div.wrapper-messages, div.conv-form-wrapper div#messages {
+        max-height: 71vh;
+    }
+}
+
+div.conv-form-wrapper div.wrapper-messages::-webkit-scrollbar, div#feed ul::-webkit-scrollbar, div.conv-form-wrapper div.options::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    /* remove scrollbar space */
+    background: transparent;
+    /* optional: just make scrollbar invisible */
+}
+input[type="text"].userInputDynamic.error {
+    color: #ac0000 !important;
+}
+input[type="text"].userInputDynamic {
+    border-radius: 3px;
+    margin: 7px 10px;
+}
+
+textarea.userInputDynamic.error {
+    color: #ac0000 !important;
+}
+
+textarea.userInputDynamic {
+    border-radius: 3px;
+    margin: 7px 10px;
+}
+
+div.conv-form-wrapper div#messages {
+    transition: bottom 0.15s, padding-bottom 0.15s;
+    position: absolute;
+    bottom: 0;
+    margin-left: -5px;
+    height: auto !important;
+    width: 97%;
+    padding-bottom: 20px;
+    /*max-height: 71vh;*/
+}
+div.conv-form-wrapper div.options {
+    word-wrap: normal;
+    white-space: nowrap;
+    overflow-x: scroll;
+    position: absolute;
+    bottom: 100%;
+    width: 100%;
+    transform: translateY(-5px);
+}
+div.conv-form-wrapper div.options:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+div.conv-form-wrapper div.options div.option {
+    padding: 7px 12px;
+    border: 1px solid rgba(6,153,184,0.3);
+    display: inline-block;
+    margin: 5px;
+    background: #fff;
+    color: #06c5a6;
+    cursor: pointer;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+div.conv-form-wrapper div.message {
+    animation: slideTop 0.15s ease;
+}
+div.conv-form-wrapper div.message:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+div.conv-form-wrapper  div.message.ready {
+    animation: bounceIn 0.2s ease;
+    transform-origin: 0 0 0;
+}
+div.conv-form-wrapper  div#messages div.message {
+    border-radius: 20px;
+    padding: 12px 22px;
+    font-size: 0.905rem;
+    color: #333;
+    display: inline-block;
+    padding: 10px 15px 8px;
+    border-radius: 20px;
+    margin-bottom: 5px;
+    float: right;
+    clear: both;
+    max-width: 65%;
+    word-wrap: break-word;
+}
+div.conv-form-wrapper  div#messages div.message.to {
+    /* background: #892cdc; */
+    background: linear-gradient(to right, #388eff 29%, #70aeff 81%);
+    color: #fff;
+    float: left;
+    border-top-left-radius: 0;
+}
+div.conv-form-wrapper div#messages div.message.from {
+    background: linear-gradient(to left, #38ff84 0%, #98fbbe 100%);
+    /* background: #bc6ff1; */
+    color: #000000;
+    border-top-right-radius: 0;
+}
+.message.to+.message.from, .message.from+.message.to {
+    margin-top: 15px;
+}
+@keyframes slideTop {
+    0% {
+        margin-bottom: -25px;
+    }
+    100% {
+        margin-bottom: 0;
+    }
+}
+
+@keyframes bounceIn {
+    0% {
+        transform: scale(0.75, 0.75);
+    }
+    100% {
+        transform: scale(1.0, 1.0);
+    }
+}
+div.conv-form-wrapper div.options div.option:hover {
+    background: #eeeeee;
+}
+div.conv-form-wrapper div.options div.option.selected {
+    background: #06b79a;
+    color: #fff;
+}
+div.conv-form-wrapper div.options div.option.selected:hover {
+    background: #069c7f;
+}
+
+form.convFormDynamic button.submit {
+    padding: 3px;
+    border: none;
+    float: left;
+    margin: 5px;
+    color: #06c5a6;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    width: 36px;
+    height: 35px;
+    margin-top: 8px;
+    background: #fff;
+    outline: none !important;
+}
+
+
+form.convFormDynamic button.submit:hover {
+    background: #06b79a;
+    color: #fff;
+}
+
+button.submit.glow {
+    box-shadow: 0 0 10px 5px rgba(6, 197, 166, 0.4);
+}
+.no-border {
+    border: none !important;
+}
+.dragscroll {
+    cursor: grab;
+}
+div.conv-form-wrapper div#messages::-webkit-scrollbar, div#feed ul::-webkit-scrollbar {
+    width: 0px;
+    /* remove scrollbar space */
+    background: transparent;
+    /* optional: just make scrollbar invisible */
+}
+span.clear {
+    display: block;
+    clear: both;
+}
+
+.spinLoader,
+.spinLoader:before,
+.spinLoader:after {
+    background: #06c5a6 !important;
+    -webkit-animation: spinLoaderChat 1s infinite ease-in-out;
+    animation: spinLoaderChat 1s infinite ease-in-out;
+    width: 1em;
+    height: 4em;
+}
+.spinLoader {
+    color: #06c5a6 !important;
+    text-indent: -9999em;
+    margin: 50% auto;
+    position: relative;
+    font-size: 11px;
+    -webkit-transform: translateZ(0);
+    -ms-transform: translateZ(0);
+    transform: translateZ(0);
+    -webkit-animation-delay: -0.16s;
+    animation-delay: -0.16s;
+}
+.spinLoader:before,
+.spinLoader:after {
+    position: absolute;
+    top: 0;
+    content: '';
+}
+.spinLoader:before {
+    left: -1.5em;
+    -webkit-animation-delay: -0.32s;
+    animation-delay: -0.32s;
+}
+.spinLoader:after {
+    left: 1.5em;
+}
+@-webkit-keyframes spinLoaderChat {
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 0;
+        height: 4em;
+    }
+    40% {
+        box-shadow: 0 -2em;
+        height: 5em;
+    }
+}
+@keyframes spinLoaderChat {
+    0%,
+    80%,
+    100% {
+        box-shadow: 0 0;
+        height: 4em;
+    }
+    40% {
+        box-shadow: 0 -2em;
+        height: 5em;
+    }
+}
+
+.header-wrapper {
+  background-color: #000000;
+  color: white;
+  width: auto;
+  height: 20px;
+  top: 0px;
+  left: 0px;
+  padding-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 25px;
+  padding-right: 20px;
+  text-align: right;
+}
+.logo{
+	position: fixed;
+    top: 0px;
+	left: 5%;
+	padding: 10px;
+    padding-bottom: 20px;
+}
+
+body {
+    overflow: hidden;
+    background: #1a1a2e;
+}
+
+
+.awesome {
+
+  font-family: futura;
+
+  width:100%;
+  margin-top: 12px;
+  margin-left: 12px;
+  text-align: center;
+
+  color:#313131;
+  font-size:16px;
+  font-weight: bold;
+  position: absolute;
+  -webkit-animation:colorchange 20s infinite alternate;
+
+
+}
+
+@-webkit-keyframes colorchange {
+  0% {
+
+    color: lightblue;
+  }
+
+  10% {
+
+    color: #8e44ad;
+  }
+
+  20% {
+
+    color: #1abc9c;
+  }
+
+  30% {
+
+    color: #7afad8;
+  }
+
+  40% {
+
+    color: lightblue;
+  }
+
+  50% {
+
+    color: #70b8ff;
+  }
+
+  60% {
+
+    color: lightblue;
+  }
+
+  70% {
+
+    color: #2980b9;
+  }
+  80% {
+
+    color: #67d962;
+  }
+
+  90% {
+
+    color: #62c7d9;
+  }
+
+  100% {
+
+    color: #9ee84f;
+  }
+}

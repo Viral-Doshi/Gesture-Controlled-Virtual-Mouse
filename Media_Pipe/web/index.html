@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Proton</title>
+
+    <script type="text/javascript" src="/eel.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/jquery.convform.css">
+    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.convform.js"></script>
+    <script type="text/javascript" src="js/custom.js"></script>
+</head>
+<body>
+    <!-- header -->
+    <header>
+        <div class = "header-wrapper">
+          <p class="awesome">PROTON Welcomes you!</p>
+            <div class = "logo">
+                <img src= "images/icon.png"  width="35" height="33">
+            </div>
+        </div>
+    </header>
+    <!-- ChatBot -->
+    <div class="chat_icon">
+        <i class="fa fa-comments" aria-hidden="true"></i>
+    </div>
+
+    <div class="chat_box">
+        <div class="my-conv-form-wrapper">
+            <form action="" method="GET" class="hidden">
+                <input type="text" name="name" data-conv-question="Please, Enter your name">
+
+                <input type="text" data-conv-question="Hi {name}, <br> It's a pleasure to meet you." data-no-answer="true">
+
+                <input data-conv-question="Enter your e-mail" data-pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" type="email" name="email" required placeholder="What's your e-mail?">
+
+                <select data-conv-question="Please Conform">
+                    <option value="Yes">Conform</option>
+                </select>
+
+            </form>
+        </div>
+    </div>
+</body>
+</html>
