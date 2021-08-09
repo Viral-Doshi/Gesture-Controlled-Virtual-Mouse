@@ -202,7 +202,7 @@ textarea.userInputDynamic {
 
 div.conv-form-wrapper div#messages {
     transition: bottom 0.15s, padding-bottom 0.15s;
-    position: absolute;
+    position: relative;
     bottom: 0;
     margin-left: -5px;
     height: auto !important;

@@ -2,12 +2,8 @@
 <html>
 <head>
     <title>Proton</title>
-
     <script type="text/javascript" src="/eel.js"></script>
     <link rel="stylesheet" type="text/css" href="css/jquery.convform.css">
-    <script type="text/javascript" src="js/jquery-3.1.1.min.js"></script>
-    <script type="text/javascript" src="js/jquery.convform.js"></script>
-    <script type="text/javascript" src="js/custom.js"></script>
 </head>
 <body>
     <!-- header -->
@@ -26,19 +22,33 @@
 
     <div class="chat_box">
         <div class="my-conv-form-wrapper">
-            <form action="" method="GET" class="hidden">
-                <input type="text" name="name" data-conv-question="Please, Enter your name">
+            <div class="conv-form-wrapper" style="height:400px;">
+                <div id="messages" style="overflow-y:auto;height:auto;">
+                    </br></br>
+                    <div class="message to read">Hellod sd </br> s sdvdvsfds</div>
+                    <div class="message from read">Helsd flo</br>dsfds</div>
+                    <div class="message to read">Hellod sd </br> s sdvdvsfds</div>
+                    <div class="message from read">Helsd flo</br>dsfds</div>
+                    <div class="message to read">Hellod sd </br> s sdvdvsfds</div>
+                    <div class="message from read">Helsd flo</br>dsfds</div>
+                    <div class="message to read">Hellod sd </br> s sdvdvsfds</div>
+                    <div class="message from read">Helsd flo</br>dsfds</div>
+                    <div class="message to read">Hellod sd </br> s sdvdvsfds</div>
+                    <div class="message to read">Hellod sd </br> s sdvdvsfds</div>
+                    <div class="message from read">Helsd flo</br>dsfds</div>
 
-                <input type="text" data-conv-question="Hi {name}, <br> It's a pleasure to meet you." data-no-answer="true">
+                </div>
+            </div>
 
-                <input data-conv-question="Enter your e-mail" data-pattern="^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$" type="email" name="email" required placeholder="What's your e-mail?">
-
-                <select data-conv-question="Please Conform">
-                    <option value="Yes">Conform</option>
-                </select>
-
+            <form id="convForm" class="convFormDynamic" style="height:50px;position:absolute;left:10px;bottom:0px;margin:5px;">
+                <div class="options dragscroll"></div>
+                <textarea id="userInput" rows="1" placeholder="Type Here" class="userInputDynamic" style="margin: 7px 7.575px 7px 10px; width: 219px; height: 24px;"></textarea>
+                <button id="userInputButton" type="button" class="submit" style="margin-top:9px">▶</button>
+                <span class="clear"></span>
             </form>
+
         </div>
     </div>
 </body>
+    <script type="text/javascript" src="js/main.js"></script>
 </html>

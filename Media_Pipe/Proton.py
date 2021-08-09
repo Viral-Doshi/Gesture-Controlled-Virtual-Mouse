@@ -11,6 +11,7 @@ from os.path import isfile, join
 import smtplib
 import wikipedia
 import Gesture_Controller
+import app
 from threading import Thread
 
 
@@ -31,6 +32,7 @@ is_awake = True  #Bot status
 
 # ------------------Functions----------------------
 def reply(audio):
+    
     print(audio)
     engine.say(audio)
     engine.runAndWait()
@@ -190,6 +192,9 @@ def respond(voice_data):
         reply('I am not functioned to do this !')
 
 # ------------------Driver Code--------------------
+
+t1 = Thread(target = app.ChatBot.start)
+t1.start()
 
 wish()
 while True:
