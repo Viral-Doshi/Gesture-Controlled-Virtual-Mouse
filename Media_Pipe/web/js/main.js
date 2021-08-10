@@ -1,24 +1,29 @@
-document.getElementById("userInputButton").addEventListener("click", getUserInput , false);
+
+document.getElementById("userInputButton").addEventListener("click", getUserInput, false);
 
 eel.expose(addUserMsg);
 eel.expose(addAppMsg);
 
 function addUserMsg(msg) {
     element = document.getElementById("messages");
-    element.innerHTML += '<div class="message from read">' + msg + '</div>';
-    element.scrollTo = 100;
+    element.innerHTML += '<div class="message from ready rtol"><div>' + msg + '</div></div>';
+    element.scrollTop = element.scrollHeight - element.clientHeight;
+    //add delay for animation to complete and then modify class to => "message from"
+    setTimeout(() => { element.lastChild.className = "message from"; }, 500);
+    //addAppMsg(msg);
 }
 
 function addAppMsg(msg) {
     element = document.getElementById("messages");
-    element.innerHTML += '<div class="message to read">' + msg + '</div>';
-    //element.scrollTop = element.scrollHeight - element.clientHeight;
+    element.innerHTML += '<div class="message to ready ltor"><div>' + msg + '</div></div>';
+    element.scrollTop = element.scrollHeight - element.clientHeight;
+    //add delay for animation to complete and then modify class to => "message to"
+    setTimeout(() => { element.lastChild.className = "message to"; }, 500);
 }
 
 function getUserInput() {
     element = document.getElementById("userInput");
     msg = element.value;
-    console.log(document.getElementById("messages").scrollTop);
     if (msg.length != 0) {
         element.value = "";
         addUserMsg(msg);

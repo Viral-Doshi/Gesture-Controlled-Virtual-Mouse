@@ -236,15 +236,19 @@ div.conv-form-wrapper div.options div.option {
     font-size: 0.9rem;
 }
 div.conv-form-wrapper div.message {
-    animation: slideTop 0.15s ease;
+    /*animation: slideTop 0.15s ease;*/
 }
 div.conv-form-wrapper div.message:after {
     content: '';
     display: table;
     clear: both;
 }
-div.conv-form-wrapper  div.message.ready {
-    animation: bounceIn 0.2s ease;
+div.conv-form-wrapper  div.message.ready.rtol {
+    animation: slideRtoLIn 0.5s ease;
+    transform-origin: 0 0 0;
+}
+div.conv-form-wrapper div.message.ready.ltor {
+    animation: slideLtoRIn 0.5s ease;
     transform-origin: 0 0 0;
 }
 div.conv-form-wrapper  div#messages div.message {
@@ -294,6 +298,25 @@ div.conv-form-wrapper div#messages div.message.from {
         transform: scale(1.0, 1.0);
     }
 }
+@keyframes slideRtoLIn {
+    0% {
+        margin-right: -25px;
+    }
+
+    100% {
+        margin-right: 0;
+    }
+}
+@keyframes slideLtoRIn {
+    0% {
+        margin-left: -25px;
+    }
+
+    100% {
+        margin-left: 0;
+    }
+}
+
 div.conv-form-wrapper div.options div.option:hover {
     background: #eeeeee;
 }
