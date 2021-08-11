@@ -4,6 +4,13 @@ document.getElementById("userInputButton").addEventListener("click", getUserInpu
 eel.expose(addUserMsg);
 eel.expose(addAppMsg);
 
+eel.expose(my_javascript_function);
+function my_javascript_function(a, b, c, d) {
+    if (a < b) {
+        console.log(c * d);
+    }
+}
+
 function addUserMsg(msg) {
     element = document.getElementById("messages");
     element.innerHTML += '<div class="message from ready rtol">' + msg + '</div>';

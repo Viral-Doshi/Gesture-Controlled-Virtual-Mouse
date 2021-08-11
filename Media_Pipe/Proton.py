@@ -1,6 +1,7 @@
 import pyttsx3
 import speech_recognition as sr
 from datetime import date
+import time
 import webbrowser
 import datetime
 from pynput.keyboard import Key, Controller
@@ -32,7 +33,7 @@ is_awake = True  #Bot status
 
 # ------------------Functions----------------------
 def reply(audio):
-    app.ChatBot.eel.addAppMsg(audio);
+    app.ChatBot.addAppMsg(audio)
 
     print(audio)
     engine.say(audio)
@@ -76,7 +77,7 @@ def record_audio():
 def respond(voice_data):
     global file_exp_status, files, is_awake, path
     print(voice_data)
-    app.ChatBot.eel.addUserMsg(voice_data);
+    app.eel.addUserMsg(voice_data);
     voice_data.replace('proton','')
 
     if is_awake==False:
@@ -198,8 +199,14 @@ def respond(voice_data):
 t1 = Thread(target = app.ChatBot.start)
 t1.start()
 
+#Lock main thread until Chatbot has started
+while not app.ChatBot.started:
+    time.sleep(0.5)
+
 wish()
 while True:
     voice_data = record_audio()
     if 'proton' in voice_data:
         respond(voice_data)
+
+
