@@ -16,7 +16,7 @@ class ChatBot:
         try:
             eel.start('index.html', mode='chrome',
                                     host='localhost',
-                                    port=27000,
+                                    port=27005,
                                     block=True,
                                     size=(350, 480),
                                     position=(10,100),
@@ -26,4 +26,4 @@ class ChatBot:
         except:
             pass
 
-ChatBot.start()
+#ChatBot.start()

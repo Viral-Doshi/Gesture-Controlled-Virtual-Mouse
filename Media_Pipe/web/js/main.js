@@ -6,19 +6,25 @@ eel.expose(addAppMsg);
 
 function addUserMsg(msg) {
     element = document.getElementById("messages");
-    element.innerHTML += '<div class="message from ready rtol"><div>' + msg + '</div></div>';
-    element.scrollTop = element.scrollHeight - element.clientHeight;
+    element.innerHTML += '<div class="message from ready rtol">' + msg + '</div>';
+    element.scrollTop = element.scrollHeight - element.clientHeight - 15;
     //add delay for animation to complete and then modify class to => "message from"
-    setTimeout(() => { element.lastChild.className = "message from"; }, 500);
-    //addAppMsg(msg);
+    index = element.childElementCount - 1;
+    setTimeout(changeClass.bind(null, element, index, "message from"), 500);
 }
 
 function addAppMsg(msg) {
     element = document.getElementById("messages");
-    element.innerHTML += '<div class="message to ready ltor"><div>' + msg + '</div></div>';
-    element.scrollTop = element.scrollHeight - element.clientHeight;
+    element.innerHTML += '<div class="message to ready ltor">' + msg + '</div>';
+    element.scrollTop = element.scrollHeight - element.clientHeight - 15;
     //add delay for animation to complete and then modify class to => "message to"
-    setTimeout(() => { element.lastChild.className = "message to"; }, 500);
+    index = element.childElementCount - 1;
+    setTimeout(changeClass.bind(null, element, index, "message to"), 500);
+}
+
+function changeClass(element, index, newClass) {
+    console.log(newClass +' '+ index);
+    element.children[index].className = newClass;
 }
 
 function getUserInput() {

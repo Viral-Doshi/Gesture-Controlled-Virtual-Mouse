@@ -201,7 +201,7 @@ textarea.userInputDynamic {
 }
 
 div.conv-form-wrapper div#messages {
-    transition: bottom 0.15s, padding-bottom 0.15s;
+    /*transition: bottom 0.15s, padding-bottom 0.15s;*/
     position: relative;
     bottom: 0;
     margin-left: -5px;
@@ -281,6 +281,7 @@ div.conv-form-wrapper div#messages div.message.from {
 .message.to+.message.from, .message.from+.message.to {
     margin-top: 15px;
 }
+/*
 @keyframes slideTop {
     0% {
         margin-bottom: -25px;
@@ -298,18 +299,19 @@ div.conv-form-wrapper div#messages div.message.from {
         transform: scale(1.0, 1.0);
     }
 }
+*/
 @keyframes slideRtoLIn {
     0% {
-        margin-right: -25px;
+        margin-right: -50px;
     }
 
     100% {
-        margin-right: 0;
+        margin-right: 0px;
     }
 }
 @keyframes slideLtoRIn {
     0% {
-        margin-left: -25px;
+        margin-left: -50px;
     }
 
     100% {

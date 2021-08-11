@@ -32,7 +32,8 @@ is_awake = True  #Bot status
 
 # ------------------Functions----------------------
 def reply(audio):
-    
+    app.ChatBot.eel.addAppMsg(audio);
+
     print(audio)
     engine.say(audio)
     engine.runAndWait()
@@ -75,6 +76,7 @@ def record_audio():
 def respond(voice_data):
     global file_exp_status, files, is_awake, path
     print(voice_data)
+    app.ChatBot.eel.addUserMsg(voice_data);
     voice_data.replace('proton','')
 
     if is_awake==False:
