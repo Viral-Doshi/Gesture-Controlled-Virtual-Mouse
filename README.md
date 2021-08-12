@@ -90,7 +90,7 @@ Voice Assistant ( ***Proton*** ):
 # Collaborators
   | |  |  |  |  |
   | ------------- | ------------- | ------------- | ------------- | ------------- |
-  | Viral Doshi | [GitHub](https://github.com/Viral-Doshi) | [mailto](viraldoshi321@gmail.com) | [LinkedIn](https://www.linkedin.com/in/viral-doshi-5a7737190/) | [Instagram](https://www.instagram.com/_viral_doshi/) |
+  | Viral Doshi | [GitHub](https://github.com/Viral-Doshi) | [Email](mailto:viraldoshi321@gmail.com) | [LinkedIn](https://www.linkedin.com/in/viral-doshi-5a7737190/) | [Instagram](https://www.instagram.com/_viral_doshi/) |
   | Nishiket Bidawat | Github | Email | LinkedIn | Instagram |
   | Ankit Sharma | Github | Email | LinkedIn | Instagram |
   | Parth Sakariya | Github | Email | LinkedIn | Instagram |
