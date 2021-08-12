@@ -32,7 +32,7 @@ class ChatBot:
                                     disable_cache=True,
                                     close_callback=ChatBot.close_callback)
             ChatBot.started = True
-            while True:
+            while ChatBot.started:
                 try:
                     eel.sleep(10.0)
                 except:

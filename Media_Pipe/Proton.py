@@ -77,8 +77,8 @@ def record_audio():
 def respond(voice_data):
     global file_exp_status, files, is_awake, path
     print(voice_data)
-    app.eel.addUserMsg(voice_data);
     voice_data.replace('proton','')
+    app.eel.addUserMsg(voice_data)
 
     if is_awake==False:
         if 'wake up' in voice_data:
@@ -121,6 +121,10 @@ def respond(voice_data):
     elif ('bye' in voice_data) or ('by' in voice_data):
         reply("Good bye Sir! Have a nice day.")
         is_awake = False
+
+    elif ('exit' in voice_data) or ('terminate' in voice_data):
+        app.ChatBot.started = False
+        exit()
         
     # DYNAMIC CONTROLS
     elif 'launch gesture recognition' in voice_data:
@@ -199,7 +203,7 @@ def respond(voice_data):
 t1 = Thread(target = app.ChatBot.start)
 t1.start()
 
-#Lock main thread until Chatbot has started
+# Lock main thread until Chatbot has started
 while not app.ChatBot.started:
     time.sleep(0.5)
 
