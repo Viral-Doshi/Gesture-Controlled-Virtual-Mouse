@@ -43,7 +43,19 @@ Voice Assistant ( ***Proton*** ):
   ### Hand Gesture
   ...
   ### Voice Commands
-  ...
+*  Launch / Stop  Gesture Recognition
+```a```
+*  Google Search
+*  Find a Location on Google Maps
+*  File Navigation
+*  Open / Close Files
+*  Current Date and Time
+*  Copy and Paste Shortcuts
+*  Sleep / Wake up Proton
+*  Exit
   
 # Collaborators
-  ...
+  Viral Doshi   Github  Email  LinkedIn  Instagram
+  Nishiket Bidawat   Github  Email  LinkedIn  Instagram
+  Ankit Sharma   Github  Email  LinkedIn  Instagram
+  Parth Sakariya   Github  Email  LinkedIn  Instagram
