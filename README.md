@@ -17,7 +17,7 @@ Gesture Recognition:
 *  Brightness Control
 
 Voice Assistant ( ***Proton*** ):
-*  [Launch / Stop  Gesture Recognition](README.md?plain=1#L43)
+*  [Launch / Stop  Gesture Recognition](https://github.com/xenon-19/Gesture_Controller/blob/6a15484570e5eb0918fbcb942a3aa44999ea4a7f/README.md#L43-L47)
 *  Google Search
 *  Find a Location on Google Maps
 *  File Navigation
