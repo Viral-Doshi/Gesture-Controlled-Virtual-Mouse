@@ -4,8 +4,8 @@ Gesture_Controller provides ease of interacting with computer by using hand gest
 This project makes use of the state-of-art machine learning and computer vision algorithm to recognize hand gestures and voice commands, which works smoothly without any additional hardware requirments. It leverages models such as CNN implemented by MediaPipe running on top of pybind11.
 It consists of two modules one which requires hand glove and another without hand glove.
 
-Features
-=================
+# Features
+
 Gesture Recognition:
 *  Move Cursor
 *  Left Click
@@ -28,3 +28,6 @@ Voice Assistant ( ***Proton*** ):
 *  Sleep / Wake up Proton
 *  Exit
 
+# Requirments
+
+``` pip install requirments.txt ```
