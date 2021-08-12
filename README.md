@@ -42,55 +42,58 @@ Voice Assistant ( ***Proton*** ):
   ### Hand Gesture
   ...
   ### Voice Commands
-*  Launch / Stop  Gesture Recognition
-``` Proton Launch Gesture Recognition ```
-   Turns on webcam for hand gesture recognition.
-``` Proton Stop Gesture Recognition ```
-   Turns off webcam and stops gesture recognition. (Termination of Gesture controller can also be done via pressing ```Enter``` key in webcam window)
+*  Launch / Stop  Gesture Recognition <br>
+``` Proton Launch Gesture Recognition ``` <br>
+   Turns on webcam for hand gesture recognition. <br>
+``` Proton Stop Gesture Recognition ``` <br>
+   Turns off webcam and stops gesture recognition. (Termination of Gesture controller can also be done via pressing ```Enter``` key in webcam window) <br>
    
-*  Google Search
-  ``` Proton search {text_you_wish_to_search} ```
-  Opens a new tab on Chrome Browser if it is running, else opens a new window. Searches the given text on Google.
+*  Google Search <br>
+  ``` Proton search {text_you_wish_to_search} ``` <br>
+  Opens a new tab on Chrome Browser if it is running, else opens a new window. Searches the given text on Google. <br>
   
-*  Find a Location on Google Maps
-   Step 1: ``` Proton Find a Location ```
-   Will ask the user for the location to be searched
-   Step 2: ```{Location_you_wish_to_find}```
-   Will find the required location on Google Maps in a new Chrome tab.
+*  Find a Location on Google Maps <br>
+   Step 1: ``` Proton Find a Location ``` <br>
+   Will ask the user for the location to be searched <br>
+   Step 2: ```{Location_you_wish_to_find}``` <br>
+   Will find the required location on Google Maps in a new Chrome tab. <br>
    
-*  File Navigation
-  ``` Proton list files ``` / ``` Proton list ```
-  Will list the files and respective file_numbers in your Current Directory (by default C:)
-  ``` Proton open {file_number} ```
-  Opens the file / directory corresponding to specified file_number.
-  ``` Proton go back ``` / ``` Proton back ```
-  Changes the Current Directory to Parent Directory and lists the files. 
+*  File Navigation <br>
+  ``` Proton list files ``` / ``` Proton list ``` <br>
+  Will list the files and respective file_numbers in your Current Directory (by default C:) <br>
+  ``` Proton open {file_number} ``` <br>
+  Opens the file / directory corresponding to specified file_number. <br>
+  ``` Proton go back ``` / ``` Proton back ``` <br>
+  Changes the Current Directory to Parent Directory and lists the files.  <br>
     
-*  Current Date and Time
-  ``` Proton what is today's date ``` / ``` Proton date ```
-  ``` Proton what is the time ``` / ``` Proton time ```
-  Returns the current date and time
+*  Current Date and Time <br>
+  ``` Proton what is today's date ``` / ``` Proton date ``` <br>
+  ``` Proton what is the time ``` / ``` Proton time ``` <br>
+  Returns the current date and time <br>
   
-*  Copy and Paste
-  ``` Proton Copy ```
-  Copies the selected text to clipboard.
-  ``` Proton Paste ```
-  Pastes the copied text.
+*  Copy and Paste <br>
+  ``` Proton Copy ``` <br>
+  Copies the selected text to clipboard. <br>
+  ``` Proton Paste ``` <br>
+  Pastes the copied text. <br>
   
-*  Sleep / Wake up Proton
-   Sleep:
-  ``` Proton bye ```
-  Pauses voice command execution till the assistant is woken up.
-  Wake up:
-  ``` Proton wake up ```
-  Resumes voice command execution.
+*  Sleep / Wake up Proton <br>
+   Sleep: <br>
+  ``` Proton bye ``` <br>
+  Pauses voice command execution till the assistant is woken up. <br>
+  Wake up: <br>
+  ``` Proton wake up ``` <br>
+  Resumes voice command execution. <br>
     
-*  Exit
-  ``` Proton Exit ```
-  Terminates the voice assisstant thread. GUI window needs to be closed manually.
+*  Exit <br>
+  ``` Proton Exit ``` <br>
+  Terminates the voice assisstant thread. GUI window needs to be closed manually. <br>
   
 # Collaborators
-  Viral Doshi   Github  Email  LinkedIn  Instagram
-  Nishiket Bidawat   Github  Email  LinkedIn  Instagram
-  Ankit Sharma   Github  Email  LinkedIn  Instagram
-  Parth Sakariya   Github  Email  LinkedIn  Instagram
+  | |  |  |  |  |
+  | ------------- | ------------- | ------------- | ------------- | ------------- |
+  | Viral Doshi | Github | Email | LinkedIn | Instagram |
+  | Nishiket Bidawat | Github | Email | LinkedIn | Instagram |
+  | Ankit Sharma | Github | Email | LinkedIn | Instagram |
+  | Parth Sakariya | Github | Email | LinkedIn | Instagram |
+  
