@@ -13,9 +13,9 @@ class ChatBot:
         return ChatBot.userinputQueue.get()
 
     def close_callback(route, websockets):
-        if not websockets:
-            print('Bye!')
-            exit()
+        # if not websockets:
+        #     print('Bye!')
+        exit()
 
     @eel.expose
     def getUserInput(msg):
@@ -24,7 +24,6 @@ class ChatBot:
     
     def close():
         ChatBot.started = False
-        eel.close()
     
     def addUserMsg(msg):
         eel.addUserMsg(msg)

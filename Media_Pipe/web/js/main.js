@@ -13,7 +13,6 @@ document.getElementById("userInput").addEventListener("keyup", function (event) 
 
 eel.expose(addUserMsg);
 eel.expose(addAppMsg);
-eel.expose(close);
 
 
 function addUserMsg(msg) {
@@ -39,10 +38,6 @@ function changeClass(element, index, newClass) {
     element.children[index].className = newClass;
 }
 
-function close() {
-    //window.open('', '_self').close();
-    //window.close();
-}
 
 function getUserInput() {
     element = document.getElementById("userInput");
