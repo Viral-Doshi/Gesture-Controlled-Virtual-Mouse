@@ -4,8 +4,8 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 
 
 # Features
-
-Gesture Recognition:
+ _click on dropdown to know more_
+### Gesture Recognition:
 *  Move Cursor
 *  Left Click
 *  Right Click
@@ -16,15 +16,114 @@ Gesture Recognition:
 *  Volume Control
 *  Brightness Control
 
-Voice Assistant ( ***Proton*** ):
-*  [Launch / Stop  Gesture Recognition](https://github.com/xenon-19/Gesture_Controller/blob/6a15484570e5eb0918fbcb942a3aa44999ea4a7f/README.md#L43-L47)
-*  Google Search
-*  Find a Location on Google Maps
-*  File Navigation
-*  Current Date and Time
-*  Copy and Paste Shortcuts
-*  Sleep / Wake up Proton
-*  Exit
+### Voice Assistant ( ***Proton*** ):
+<details>
+<summary>Launch / Stop  Gesture Recognition</summary>
+<ul>
+  <li>
+    <code> Proton Launch Gesture Recognition </code><br>
+    Turns on webcam for hand gesture recognition.
+  </li>
+  <li>
+    <code> Proton Stop Gesture Recognition </code><br>
+    Turns off webcam and stops gesture recognition.
+    (Termination of Gesture controller can also be done via pressing <code>Enter</code> key in webcam window)
+   </li>
+</ul>
+</details>
+
+<details>
+<summary>Google Search</summary>
+<ul>
+  <li>
+    <code>Proton search {text_you_wish_to_search}</code><br>
+    Opens a new tab on Chrome Browser if it is running, else opens a new window. Searches the given text on Google.
+  </li>
+</ul>
+</details>
+
+<details>
+<summary>Find a Location on Google Maps</summary>
+  <ol>
+    <li> 
+      <code>Proton Find a Location</code><br>
+      Will ask the user for the location to be searched.
+    </li>
+    <li> 
+      <code>{Location_you_wish_to_find}</code><br>
+      Will find the required location on Google Maps in a new Chrome tab.
+    </li>
+  </ol>
+</details>
+
+<details>
+<summary>File Navigation</summary>
+  <ul>
+    <li>
+      <code>Proton list files</code> / <code> Proton list </code><br>
+      Will list the files and respective file_numbers in your Current Directory (by default C:)
+    </li>
+    <li>  
+      <code> Proton open {file_number} </code><br>
+      Opens the file / directory corresponding to specified file_number.
+    </li>
+    <li>
+      <code>Proton go back </code> / <code> Proton back </code><br>
+      Changes the Current Directory to Parent Directory and lists the files.
+    </li>
+  </ul>
+</details>
+
+<details>
+<summary>Current Date and Time</summary>
+  <ul>
+    <li>
+      <code> Proton what is today's date </code> / <code> Proton date </code><br>
+      <code> Proton what is the time </code> / <code> Proton time </code><br>
+      Returns the current date and time.
+    </li>
+  </ul>
+</details>
+
+<details>
+<summary>Copy and Paste</summary>
+  <ul>
+    <li>
+      <code> Proton Copy </code><br>
+      Copies the selected text to clipboard.<br>
+    </li>
+    <li>
+      <code> Proton Paste </code><br>
+      Pastes the copied text.
+    </li>
+  </ul>
+</details>
+
+<details>
+<summary>Sleep / Wake up Proton</summary>
+  <ul>
+    <li>
+      Sleep<br>
+      <code> Proton bye </code><br>
+      Pauses voice command execution till the assistant is woken up.
+    </li>
+    <li>
+      Wake up<br>
+      <code> Proton wake up </code><br>
+      Resumes voice command execution.
+    </li>
+  </ul>
+</details>
+
+<details>
+<summary>Exit</summary>
+  <ul>
+    <li>
+      <code> Proton Exit </code> <br>
+      Terminates the voice assisstant thread. GUI window needs to be closed manually.
+    </li>
+  </ul>
+</details>
 
 # Getting Started
   ### Requirments
