@@ -6,7 +6,7 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 # Features
 
 Gesture Recognition:
-*  [Move Cursor]
+*  Move Cursor
 *  Left Click
 *  Right Click
 *  Double Click
