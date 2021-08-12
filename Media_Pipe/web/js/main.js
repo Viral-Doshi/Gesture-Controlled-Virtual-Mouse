@@ -1,15 +1,20 @@
 
+//user clicked button
 document.getElementById("userInputButton").addEventListener("click", getUserInput, false);
+//user pressed enter '13'
+document.getElementById("userInput").addEventListener("keyup", function (event) {
+    if (event.keyCode === 13) {
+        //cancel the default action
+        event.preventDefault();
+        //process event
+        getUserInput();
+    }
+});
 
 eel.expose(addUserMsg);
 eel.expose(addAppMsg);
+eel.expose(close);
 
-eel.expose(my_javascript_function);
-function my_javascript_function(a, b, c, d) {
-    if (a < b) {
-        console.log(c * d);
-    }
-}
 
 function addUserMsg(msg) {
     element = document.getElementById("messages");
@@ -34,12 +39,16 @@ function changeClass(element, index, newClass) {
     element.children[index].className = newClass;
 }
 
+function close() {
+    //window.open('', '_self').close();
+    //window.close();
+}
+
 function getUserInput() {
     element = document.getElementById("userInput");
     msg = element.value;
     if (msg.length != 0) {
         element.value = "";
-        addUserMsg(msg);
         eel.getUserInput(msg);
     }
 }

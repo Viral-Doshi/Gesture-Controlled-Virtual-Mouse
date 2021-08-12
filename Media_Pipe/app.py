@@ -1,9 +1,16 @@
 import eel
-from threading import Thread
+from queue import Queue
 
 class ChatBot:
 
     started = False
+    userinputQueue = Queue()
+
+    def isUserInput():
+        return not ChatBot.userinputQueue.empty()
+
+    def popUserInput():
+        return ChatBot.userinputQueue.get()
 
     def close_callback(route, websockets):
         if not websockets:
@@ -12,7 +19,12 @@ class ChatBot:
 
     @eel.expose
     def getUserInput(msg):
+        ChatBot.userinputQueue.put(msg)
         print(msg)
+    
+    def close():
+        ChatBot.started = False
+        eel.close()
     
     def addUserMsg(msg):
         eel.addUserMsg(msg)
@@ -38,5 +50,6 @@ class ChatBot:
                 except:
                     #main thread exited
                     break
+        
         except:
             pass

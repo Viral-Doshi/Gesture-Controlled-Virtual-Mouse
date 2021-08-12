@@ -86,7 +86,7 @@
     }
 }
 
-form.convFormDynamic {
+div.convFormDynamic {
     width: calc(100% - 33px);
     margin: 10px auto 15px;
     padding: 0 !important;
@@ -94,7 +94,7 @@ form.convFormDynamic {
     /* box-shadow: 0 0 5px 5px rgba(222, 222, 222, 0.4); */
 }
 
-form.convFormDynamic textarea.userInputDynamic {
+div.convFormDynamic textarea.userInputDynamic {
     border: none;
     padding: 6px 6px;
     outline: none;
@@ -111,18 +111,19 @@ form.convFormDynamic textarea.userInputDynamic {
 }
 
 
-form.convFormDynamic input.userInputDynamic {
+div.convFormDynamic input.userInputDynamic {
     border: none;
-    padding: 7px 10px;
+    padding: 6px 6px;
     outline: none;
     font-size: 0.905rem;
     float: left;
-    width: calc(100% - 70px);
+    width: 72%;
+    height: 25%;
     line-height: 1.3em;
     min-height: 1.7em;
     max-height: 10rem;
     display: block;
-    max-width: 88%;
+    max-width: 72%;
     margin-right: 2.5%;
 }
 div.conv-form-wrapper:after {
@@ -183,6 +184,7 @@ div.conv-form-wrapper div.wrapper-messages::-webkit-scrollbar, div#feed ul::-web
     background: transparent;
     /* optional: just make scrollbar invisible */
 }
+/*
 input[type="text"].userInputDynamic.error {
     color: #ac0000 !important;
 }
@@ -190,12 +192,20 @@ input[type="text"].userInputDynamic {
     border-radius: 3px;
     margin: 7px 10px;
 }
+*/
 
 textarea.userInputDynamic.error {
     color: #ac0000 !important;
 }
 
 textarea.userInputDynamic {
+    border-radius: 3px;
+    margin: 7px 10px;
+}
+input.userInputDynamic.error {
+    color: #ac0000 !important;
+}
+input.userInputDynamic {
     border-radius: 3px;
     margin: 7px 10px;
 }
@@ -281,25 +291,6 @@ div.conv-form-wrapper div#messages div.message.from {
 .message.to+.message.from, .message.from+.message.to {
     margin-top: 15px;
 }
-/*
-@keyframes slideTop {
-    0% {
-        margin-bottom: -25px;
-    }
-    100% {
-        margin-bottom: 0;
-    }
-}
-
-@keyframes bounceIn {
-    0% {
-        transform: scale(0.75, 0.75);
-    }
-    100% {
-        transform: scale(1.0, 1.0);
-    }
-}
-*/
 @keyframes slideRtoLIn {
     0% {
         margin-right: -50px;
@@ -330,7 +321,7 @@ div.conv-form-wrapper div.options div.option.selected:hover {
     background: #069c7f;
 }
 
-form.convFormDynamic button.submit {
+div.convFormDynamic button.submit {
     padding: 3px;
     border: none;
     float: left;
@@ -347,7 +338,7 @@ form.convFormDynamic button.submit {
 }
 
 
-form.convFormDynamic button.submit:hover {
+div.convFormDynamic button.submit:hover {
     background: #06b79a;
     color: #fff;
 }

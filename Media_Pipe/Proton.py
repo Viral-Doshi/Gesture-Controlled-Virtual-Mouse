@@ -6,6 +6,7 @@ import webbrowser
 import datetime
 from pynput.keyboard import Key, Controller
 import pyautogui
+import sys
 import os
 from os import listdir
 from os.path import isfile, join
@@ -123,9 +124,11 @@ def respond(voice_data):
         is_awake = False
 
     elif ('exit' in voice_data) or ('terminate' in voice_data):
-        app.ChatBot.started = False
-        exit()
+        app.ChatBot.close()
+        #sys.exit() always raises SystemExit, Handle it in main loop
+        sys.exit() 
         
+    
     # DYNAMIC CONTROLS
     elif 'launch gesture recognition' in voice_data:
         if Gesture_Controller.GestureController.gc_mode:
@@ -208,9 +211,27 @@ while not app.ChatBot.started:
     time.sleep(0.5)
 
 wish()
+voice_data = None
 while True:
-    voice_data = record_audio()
+    if app.ChatBot.isUserInput():
+        #take input from GUI
+        voice_data = app.ChatBot.popUserInput()
+    else:
+        #take input from Voice
+        voice_data = record_audio()
+
+    #process voice_data
     if 'proton' in voice_data:
-        respond(voice_data)
+        try:
+            #Handle sys.exit()
+            respond(voice_data)
+        except SystemExit:
+            reply("Exit Successfull")
+            break
+        except:
+            #some other exception got raised
+            print("EXCEPTION raised while closing.") 
+            break
+        
 
 
