@@ -460,7 +460,7 @@ class Mouse:
         
 
 
-class Gest_Ctrl:
+class GestureController:
     gc_mode = 0
     pyautogui.FAILSAFE = False
     f_start_time = 0
