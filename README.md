@@ -6,7 +6,7 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 # Features
 
 Gesture Recognition:
-*  Move Cursor
+*  [Move Cursor]
 *  Left Click
 *  Right Click
 *  Double Click
@@ -17,7 +17,7 @@ Gesture Recognition:
 *  Brightness Control
 
 Voice Assistant ( ***Proton*** ):
-*  Launch / Stop  Gesture Recognition
+*  Launch / Stop  Gesture Recognitionhttps://github.com/xenon-19/Gesture_Controller/blob/main/README.md/README#L43
 *  Google Search
 *  Find a Location on Google Maps
 *  File Navigation
