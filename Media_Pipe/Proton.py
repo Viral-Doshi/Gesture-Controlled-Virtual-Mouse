@@ -124,9 +124,11 @@ def respond(voice_data):
         is_awake = False
 
     elif ('exit' in voice_data) or ('terminate' in voice_data):
+        if Gesture_Controller.GestureController.gc_mode:
+            Gesture_Controller.GestureController.gc_mode = 0
         app.ChatBot.close()
         #sys.exit() always raises SystemExit, Handle it in main loop
-        sys.exit() 
+        sys.exit()
         
     
     # DYNAMIC CONTROLS
@@ -161,11 +163,14 @@ def respond(voice_data):
         counter = 0
         path = 'C://'
         files = listdir(path)
+        filestr = ""
         for f in files:
             counter+=1
             print(str(counter) + ':  ' + f)
+            filestr += str(counter) + ':  ' + f + '<br>'
         file_exp_status = True
         reply('These are the files in your root directory')
+        app.ChatBot.addAppMsg(filestr)
         
     elif file_exp_status == True:
         counter = 0   
@@ -177,15 +182,19 @@ def respond(voice_data):
                 try:
                     path = path + files[int(voice_data.split(' ')[-1])-1] + '//'
                     files = listdir(path)
+                    filestr = ""
                     for f in files:
                         counter+=1
+                        filestr += str(counter) + ':  ' + f + '<br>'
                         print(str(counter) + ':  ' + f)
                     reply('Opened Successfully')
+                    app.ChatBot.addAppMsg(filestr)
                     
                 except:
                     reply('You do not have permission to access this folder')
                                     
         if 'back' in voice_data:
+            filestr = ""
             if path == 'C://':
                 reply('Sorry, this is the root directory')
             else:
@@ -195,8 +204,10 @@ def respond(voice_data):
                 files = listdir(path)
                 for f in files:
                     counter+=1
+                    filestr += str(counter) + ':  ' + f + '<br>'
                     print(str(counter) + ':  ' + f)
                 reply('ok')
+                app.ChatBot.addAppMsg(filestr)
                    
     else: 
         reply('I am not functioned to do this !')
