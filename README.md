@@ -1,9 +1,7 @@
 # Gesture_Controller
 
-Gesture_Controller provides ease of interacting with computer by using hand gesture and voice commands, almost no direct contact is required with computer.
-This project makes use of the state-of-art machine learning and computer vision algorithm to recognize hand gestures and voice commands, which works smoothly without any additional hardware requirments. It leverages models such as CNN implemented by MediaPipe running on top of pybind11.
-It consists of two modules one which requires hand glove and another without hand glove.
-Currently it works on Windows platform.
+Gesture Controller makes human computer interaction simple by making use of Hand Gestures and Voice Commands. The computer requires almost no direct contact. All i/o operations can be virtually controlled by using static and dynamic hand gestures along with a voice assistant. This project makes use of the state-of-art Machine Learning and Computer Vision algorithms to recognize hand gestures and voice commands, which works smoothly without any additional hardware requirments. It leverages models such as CNN implemented by MediaPipe running on top of pybind11. It consists of two modules: One which works direct on hands by making use of MediaPipe Hand detection, and other which makes use of Gloves of any uniform color. Currently it works on Windows platform.
+
 
 # Features
 
@@ -92,7 +90,7 @@ Voice Assistant ( ***Proton*** ):
 # Collaborators
   | |  |  |  |  |
   | ------------- | ------------- | ------------- | ------------- | ------------- |
-  | Viral Doshi | Github | Email | LinkedIn | Instagram |
+  | Viral Doshi | [GitHub](https://github.com/Viral-Doshi) | [mailto](viraldoshi321@gmail.com) | [LinkedIn](https://www.linkedin.com/in/viral-doshi-5a7737190/) | [Instagram](https://www.instagram.com/_viral_doshi/) |
   | Nishiket Bidawat | Github | Email | LinkedIn | Instagram |
   | Ankit Sharma | Github | Email | LinkedIn | Instagram |
   | Parth Sakariya | Github | Email | LinkedIn | Instagram |
