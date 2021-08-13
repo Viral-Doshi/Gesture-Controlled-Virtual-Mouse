@@ -13,6 +13,7 @@ from os.path import isfile, join
 import smtplib
 import wikipedia
 import Gesture_Controller
+#import Gesture_Controller_Gloved as Gesture_Controller
 import app
 from threading import Thread
 
