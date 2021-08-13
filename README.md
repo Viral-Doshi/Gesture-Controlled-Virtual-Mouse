@@ -72,6 +72,7 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 ### Voice Assistant ( ***Proton*** ):
 <details>
 <summary>Launch / Stop  Gesture Recognition</summary>
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/4041eedc2f75fa2923902000b606a05a677629e8/demo_media/voice%20commands/proton%20launch%20stop%20gest.png" alt="launch stop gesture recognition" width="300" height="auto">
 <ul>
   <li>
     <code> Proton Launch Gesture Recognition </code><br>
@@ -87,6 +88,7 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 
 <details>
 <summary>Google Search</summary>
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/4041eedc2f75fa2923902000b606a05a677629e8/demo_media/voice%20commands/proton%20search.png" alt="proton search github" width="800" height="auto">
 <ul>
   <li>
     <code>Proton search {text_you_wish_to_search}</code><br>
@@ -97,6 +99,7 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 
 <details>
 <summary>Find a Location on Google Maps</summary>
+ <img src="https://github.com/xenon-19/Gesture_Controller/blob/4041eedc2f75fa2923902000b606a05a677629e8/demo_media/voice%20commands/proton%20find%20location.png" alt="proton find location" width="800" height="auto">
   <ol>
     <li> 
       <code>Proton Find a Location</code><br>
@@ -111,6 +114,9 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 
 <details>
 <summary>File Navigation</summary>
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/4041eedc2f75fa2923902000b606a05a677629e8/demo_media/voice%20commands/proton%20list%20files.png" alt="proton list files" width="300" height="auto">
+ <img src="https://github.com/xenon-19/Gesture_Controller/blob/4041eedc2f75fa2923902000b606a05a677629e8/demo_media/voice%20commands/proton%20open.png" alt="proton open" width="300" height="auto">
+ <img src="https://github.com/xenon-19/Gesture_Controller/blob/4041eedc2f75fa2923902000b606a05a677629e8/demo_media/voice%20commands/proton%20go%20back.png" alt="proton go back" width="300" height="auto">
   <ul>
     <li>
       <code>Proton list files</code> / <code> Proton list </code><br>
@@ -129,6 +135,7 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 
 <details>
 <summary>Current Date and Time</summary>
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/4041eedc2f75fa2923902000b606a05a677629e8/demo_media/voice%20commands/proton%20date%20time.png" alt="proton date / time" width="300" height="auto">
   <ul>
     <li>
       <code> Proton what is today's date </code> / <code> Proton date </code><br>
@@ -140,6 +147,8 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 
 <details>
 <summary>Copy and Paste</summary>
+ <img src="https://github.com/xenon-19/Gesture_Controller/blob/4041eedc2f75fa2923902000b606a05a677629e8/demo_media/voice%20commands/proton%20copy.png" alt="proton copy" width="500" height="auto">
+ <img src="https://github.com/xenon-19/Gesture_Controller/blob/4041eedc2f75fa2923902000b606a05a677629e8/demo_media/voice%20commands/proton%20paste.png" alt="proton paste" width="500" height="auto">
   <ul>
     <li>
       <code> Proton Copy </code><br>
@@ -154,6 +163,7 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 
 <details>
 <summary>Sleep / Wake up Proton</summary>
+  <img src="https://github.com/xenon-19/Gesture_Controller/blob/4041eedc2f75fa2923902000b606a05a677629e8/demo_media/voice%20commands/proton%20bye%20wake%20up.png" alt="proton sleep / wake up" width="300" height="auto">
   <ul>
     <li>
       Sleep<br>
@@ -170,6 +180,7 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 
 <details>
 <summary>Exit</summary>
+   <img src="https://github.com/xenon-19/Gesture_Controller/blob/4041eedc2f75fa2923902000b606a05a677629e8/demo_media/voice%20commands/proton%20exit.png" alt="proton exit" width="300" height="auto">
   <ul>
     <li>
       <code> Proton Exit </code> <br>
