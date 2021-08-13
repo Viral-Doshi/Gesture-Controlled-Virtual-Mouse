@@ -52,7 +52,7 @@ def wish():
     else:
         reply("Good Evening!")  
         
-    reply("I am Proton Sir and now fully awake! Please tell me how may I help you")
+    reply("I am Proton, how may I help you?")
 
 # Set Microphone parameters
 with sr.Microphone() as source:
@@ -71,7 +71,8 @@ def record_audio():
         except sr.RequestError:
             reply('Sorry my Service is down. Plz check your Internet connection')
         except sr.UnknownValueError:
-            reply("Couldn't Recognize that...")
+            print('cant recognize')
+            pass
         return voice_data.lower()
 
 
@@ -140,10 +141,12 @@ def respond(voice_data):
             gc = Gesture_Controller.GestureController()
             t = Thread(target = gc.start)
             t.start()
+            reply('Launched Successfully')
 
     elif 'stop gesture recognition' in voice_data:
         if Gesture_Controller.GestureController.gc_mode:
             Gesture_Controller.GestureController.gc_mode = 0
+            reply('Gesture recognition Stoped')
         else:
             reply('Gesture recognition is already inactive')
         
