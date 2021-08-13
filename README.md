@@ -7,17 +7,54 @@ Gesture Controller makes human computer interaction simple by making use of Hand
  _click on dropdown to know more_
 ### Gesture Recognition:
 <details>
+<summary>Palm</summary>
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/9be82cfc75aa4c04fff0e12dd4de853f9d83a101/demo_media/palm.gif" alt="Palm" width="711" height="400">
+</details>
+
+<details>
 <summary>Move Cursor</summary>
 <img src="https://github.com/xenon-19/Gesture_Controller/blob/e20edfb1f368ffa600d96bd91031942ec97cb2ab/demo_media/move%20mouse.gif" alt="Move Cursor" width="711" height="400">
 </details>
-*  Left Click
-*  Right Click
-*  Double Click
-*  Scrolling
-*  Drag and Drop
-*  Multiple Item Selection
-*  Volume Control
-*  Brightness Control
+
+<details>
+<summary>Left Click</summary>
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/9be82cfc75aa4c04fff0e12dd4de853f9d83a101/demo_media/left%20click.gif" alt="Left Click" width="711" height="400">
+</details>
+
+<details>
+<summary>Right Click</summary>
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/9be82cfc75aa4c04fff0e12dd4de853f9d83a101/demo_media/right%20click.gif" alt="Right Click" width="711" height="400">
+</details>
+
+<details>
+<summary>Double Click</summary>
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/9be82cfc75aa4c04fff0e12dd4de853f9d83a101/demo_media/double%20click.gif" alt="Double Click" width="711" height="400">
+</details>
+
+<details>
+<summary>Scrolling</summary>
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/9be82cfc75aa4c04fff0e12dd4de853f9d83a101/demo_media/Scrolling.gif" alt="Scrolling" width="711" height="400">
+</details>
+
+<details>
+<summary>Drag and Drop</summary>
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/9be82cfc75aa4c04fff0e12dd4de853f9d83a101/demo_media/drag%20and%20drop.gif" alt="Drag and Drop" width="711" height="400">
+</details>
+
+<details>
+<summary>Multiple Item Selection</summary>
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/9be82cfc75aa4c04fff0e12dd4de853f9d83a101/demo_media/multiple%20item%20selection.gif" alt="Multiple Item Selection" width="711" height="400">
+</details>
+
+<details>
+<summary>Volume Control</summary>
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/9be82cfc75aa4c04fff0e12dd4de853f9d83a101/demo_media/Volume%20control.gif" alt="Volume Control" width="711" height="400">
+</details>
+
+<details>
+<summary>Brightness Control</summary>
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/9be82cfc75aa4c04fff0e12dd4de853f9d83a101/demo_media/Brigntness%20Control.gif" alt="Brightness Control" width="711" height="400">
+</details>
 
 ### Voice Assistant ( ***Proton*** ):
 <details>
