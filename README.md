@@ -135,7 +135,7 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 
 <details>
 <summary>Current Date and Time</summary>
-<img src="https://github.com/xenon-19/Gesture_Controller/blob/4041eedc2f75fa2923902000b606a05a677629e8/demo_media/voice%20commands/proton%20date%20time.png" alt="proton date / time" width="250" height="auto">
+<img src="https://github.com/xenon-19/Gesture_Controller/blob/d49c868acc41ac6c89489bfd80e5e5015a8cb571/demo_media/voice%20commands/proton%20date%20time.png" alt="proton date / time" width="250" height="auto">
   <ul>
     <li>
       <code> Proton what is today's date </code> / <code> Proton date </code><br>
