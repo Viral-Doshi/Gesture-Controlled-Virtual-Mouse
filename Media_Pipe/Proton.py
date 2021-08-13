@@ -113,7 +113,7 @@ def respond(voice_data):
     elif 'location' in voice_data:
         reply('Which place are you looking for ?')
         temp_audio = record_audio()
-        reply('Locating...')
+        reply('Locating ' + temp_audio)
         url = 'https://google.nl/maps/place/' + temp_audio + '/&amp;'
         try:
             webbrowser.get().open(url)
