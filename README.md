@@ -184,60 +184,6 @@ Gesture Controller makes human computer interaction simple by making use of Hand
   ### Procedure
   Lorem ipsum
 
-
-
-
-
-# Usage
-  ### Hand Gesture
-  ...
-  ### Voice Commands
-*  Launch / Stop  Gesture Recognition <br>
-``` Proton Launch Gesture Recognition ``` <br>
-   Turns on webcam for hand gesture recognition. <br>
-``` Proton Stop Gesture Recognition ``` <br>
-   Turns off webcam and stops gesture recognition. (Termination of Gesture controller can also be done via pressing ```Enter``` key in webcam window) <br>
-   
-*  Google Search <br>
-  ``` Proton search {text_you_wish_to_search} ``` <br>
-  Opens a new tab on Chrome Browser if it is running, else opens a new window. Searches the given text on Google. <br>
-  
-*  Find a Location on Google Maps <br>
-   Step 1: ``` Proton Find a Location ``` <br>
-   Will ask the user for the location to be searched <br>
-   Step 2: ```{Location_you_wish_to_find}``` <br>
-   Will find the required location on Google Maps in a new Chrome tab. <br>
-   
-*  File Navigation <br>
-  ``` Proton list files ``` / ``` Proton list ``` <br>
-  Will list the files and respective file_numbers in your Current Directory (by default C:) <br>
-  ``` Proton open {file_number} ``` <br>
-  Opens the file / directory corresponding to specified file_number. <br>
-  ``` Proton go back ``` / ``` Proton back ``` <br>
-  Changes the Current Directory to Parent Directory and lists the files.  <br>
-    
-*  Current Date and Time <br>
-  ``` Proton what is today's date ``` / ``` Proton date ``` <br>
-  ``` Proton what is the time ``` / ``` Proton time ``` <br>
-  Returns the current date and time <br>
-  
-*  Copy and Paste <br>
-  ``` Proton Copy ``` <br>
-  Copies the selected text to clipboard. <br>
-  ``` Proton Paste ``` <br>
-  Pastes the copied text. <br>
-  
-*  Sleep / Wake up Proton <br>
-   Sleep: <br>
-  ``` Proton bye ``` <br>
-  Pauses voice command execution till the assistant is woken up. <br>
-  Wake up: <br>
-  ``` Proton wake up ``` <br>
-  Resumes voice command execution. <br>
-    
-*  Exit <br>
-  ``` Proton Exit ``` <br>
-  Terminates the voice assisstant thread. GUI window needs to be closed manually. <br>
   
 # Collaborators
   | |  |  |  |  |
