@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 import cv2.aruco as aruco
+import os
 import glob
 import math
 import pyautogui
@@ -21,8 +22,8 @@ class Marker:
         objp[:,:2] = np.mgrid[0:7,0:6].T.reshape(-1,2)
         objpoints = [] # 3d point in real world space
         imgpoints = [] # 2d points in image plane.
-        p1 = 'Final\\calib_images\\checkerboard\\*.jpg' 
-        p2 = 'C:\\Users\\Viral Doshi\\Desktop\\Viral Academic\\PR 201\\Aruco_Tracker-master\\Aruco_Tracker-master\\calib_images\\checkerboard\\*.jpg'
+        path = os.path.dirname(os.path.abspath(__file__))
+        p1 = path + r'\calib_images\checkerboard\*.jpg'
         images = glob.glob(p1)
         for fname in images:
             img = cv2.imread(fname)
@@ -35,6 +36,7 @@ class Marker:
                 img = cv2.drawChessboardCorners(img, (7,6), corners2,ret)
                 
         ret, mtx, dist, rvecs, tvecs = cv2.calibrateCamera(objpoints, imgpoints, gray.shape[::-1],None,None)
+        
         #mtx = [[534.34144579,0.0,339.15527836],[0.0,534.68425882,233.84359493],[0.0,0.0,1.0]]
         #dist = [[-2.88320983e-01, 5.41079685e-02, 1.73501622e-03, -2.61333895e-04, 2.04110465e-01]]
         return mtx, dist
@@ -81,13 +83,13 @@ def in_cam(val, type_):
     if type_ == 'x':
         if val<0:
             return 0
-        if val>Gest_Ctrl.cam_width:
-            return Gest_Ctrl.cam_width
+        if val>GestureController.cam_width:
+            return GestureController.cam_width
     elif type_ == 'y':
         if val<0:
             return 0
-        if val>Gest_Ctrl.cam_height:
-            return Gest_Ctrl.cam_height
+        if val>GestureController.cam_height:
+            return GestureController.cam_height
     return val
 
     
@@ -476,56 +478,57 @@ class GestureController:
     mouse = Mouse()
     
     def __init__(self):
-        Gest_Ctrl.cap = cv2.VideoCapture(0)
-        if Gest_Ctrl.cap.isOpened():
-            Gest_Ctrl.cam_width  = int( Gest_Ctrl.cap.get(cv2.CAP_PROP_FRAME_WIDTH) )
-            Gest_Ctrl.cam_height = int( Gest_Ctrl.cap.get(cv2.CAP_PROP_FRAME_HEIGHT) )
+        GestureController.cap = cv2.VideoCapture(0)
+        if GestureController.cap.isOpened():
+            GestureController.cam_width  = int( GestureController.cap.get(cv2.CAP_PROP_FRAME_WIDTH) )
+            GestureController.cam_height = int( GestureController.cap.get(cv2.CAP_PROP_FRAME_HEIGHT) )
         else:
             print("CANNOT OPEN CAMERA")
         
-        Gest_Ctrl.f_start_time = time.time()
-        Gest_Ctrl.f_now_time = time.time()
+        GestureController.gc_mode = 1
+        GestureController.f_start_time = time.time()
+        GestureController.f_now_time = time.time()
         
     def start(self):
         while (True):
             #mode checking
-            if not Gest_Ctrl.gc_mode:
+            if not GestureController.gc_mode:
                 print('Exiting Gesture Controller')
                 break
             #fps control
             fps = 30.0
-            Gest_Ctrl.f_start_time = time.time()
-            while (Gest_Ctrl.f_now_time-Gest_Ctrl.f_start_time <= 1.0/fps):
-                Gest_Ctrl.f_now_time = time.time()
+            GestureController.f_start_time = time.time()
+            while (GestureController.f_now_time-GestureController.f_start_time <= 1.0/fps):
+                GestureController.f_now_time = time.time()
             
             #read camera
-            ret, frame = Gest_Ctrl.cap.read()
+            ret, frame = GestureController.cap.read()
             frame = cv2.flip(frame, 1)
             
             #detect Marker, find ROI, find glove HSV, get FinalMask on glove
-            Gest_Ctrl.aru_marker.detect(frame)
-            if Gest_Ctrl.aru_marker.is_detected():
-                Gest_Ctrl.csrt_track.corners_to_tracker(Gest_Ctrl.aru_marker.corners)
-                Gest_Ctrl.csrt_track.CSRT_tracker(frame)
+            GestureController.aru_marker.detect(frame)
+            if GestureController.aru_marker.is_detected():
+                GestureController.csrt_track.corners_to_tracker(GestureController.aru_marker.corners)
+                GestureController.csrt_track.CSRT_tracker(frame)
                 
             else:
-                Gest_Ctrl.csrt_track.tracker_bbox = None
-                Gest_Ctrl.csrt_track.CSRT_tracker(frame)
-                Gest_Ctrl.aru_marker.corners = Gest_Ctrl.csrt_track.tracker_to_corner(Gest_Ctrl.aru_marker.corners)
+                GestureController.csrt_track.tracker_bbox = None
+                GestureController.csrt_track.CSRT_tracker(frame)
+                GestureController.aru_marker.corners = GestureController.csrt_track.tracker_to_corner(GestureController.aru_marker.corners)
             
-            if Gest_Ctrl.aru_marker.is_detected():
-                Gest_Ctrl.hand_roi.findROI(frame, Gest_Ctrl.aru_marker)
-                Gest_Ctrl.hand_roi.find_glove_hsv(frame, Gest_Ctrl.aru_marker)
-                FinalMask = Gest_Ctrl.hand_roi.cropROI(frame)
-                Gest_Ctrl.glove.find_fingers(FinalMask)
-                Gest_Ctrl.glove.find_gesture(frame)
-                Gest_Ctrl.mouse.move_mouse(frame,Gest_Ctrl.hand_roi.marker_top,Gest_Ctrl.glove.gesture)
+            if GestureController.aru_marker.is_detected():
+                GestureController.hand_roi.findROI(frame, GestureController.aru_marker)
+                GestureController.hand_roi.find_glove_hsv(frame, GestureController.aru_marker)
+                FinalMask = GestureController.hand_roi.cropROI(frame)
+                GestureController.glove.find_fingers(FinalMask)
+                GestureController.glove.find_gesture(frame)
+                GestureController.mouse.move_mouse(frame,GestureController.hand_roi.marker_top,GestureController.glove.gesture)
             
             #draw call
-            if Gest_Ctrl.aru_marker.is_detected():
-                Gest_Ctrl.aru_marker.draw_marker(frame)
-                draw_box(frame, Gest_Ctrl.hand_roi.roi_corners, (255,0,0))
-                draw_box(frame, Gest_Ctrl.hand_roi.hsv_corners, (0,0,250))
+            if GestureController.aru_marker.is_detected():
+                GestureController.aru_marker.draw_marker(frame)
+                draw_box(frame, GestureController.hand_roi.roi_corners, (255,0,0))
+                draw_box(frame, GestureController.hand_roi.hsv_corners, (0,0,250))
                 cv2.imshow('FinalMask',FinalMask)
             
             #display frame
@@ -534,7 +537,7 @@ class GestureController:
                 break
         
         # When everything done, release the capture
-        Gest_Ctrl.cap.release()
+        GestureController.cap.release()
         cv2.destroyAllWindows()
         
         
