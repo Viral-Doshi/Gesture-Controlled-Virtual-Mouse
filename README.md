@@ -1,4 +1,6 @@
-# Gesture Controller
+
+
+# Gesture Controller &nbsp;[![](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/) [![platform](https://img.shields.io/badge/platform-windows-green.svg)]() 
 
 Gesture Controller makes human computer interaction simple by making use of Hand Gestures and Voice Commands. The computer requires almost no direct contact. All i/o operations can be virtually controlled by using static and dynamic hand gestures along with a voice assistant. This project makes use of the state-of-art Machine Learning and Computer Vision algorithms to recognize hand gestures and voice commands, which works smoothly without any additional hardware requirments. It leverages models such as CNN implemented by MediaPipe running on top of pybind11. It consists of two modules: One which works direct on hands by making use of MediaPipe Hand detection, and other which makes use of Gloves of any uniform color. Currently it works on Windows platform.
 
@@ -191,9 +193,14 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 
 # Getting Started
   ### Requirments
-  ``` pip install requirments.txt ```
+  ```bash 
+  pip install requirments.txt
+  ```
   ### Procedure
-  Lorem ipsum
+  ```bash
+  git clone https://github.com/xenon-19/Gesture_Controller.git
+  ```
+  For detailed information about cloning visit [here](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository-from-github/cloning-a-repository).
 
   
 # Collaborators
@@ -201,6 +208,6 @@ Gesture Controller makes human computer interaction simple by making use of Hand
   | ------------- | ------------- | ------------- | ------------- | ------------- |
   | Viral Doshi | [GitHub](https://github.com/Viral-Doshi) | [Email](mailto:viraldoshi321@gmail.com) | [LinkedIn](https://www.linkedin.com/in/viral-doshi-5a7737190/) | [Instagram](https://www.instagram.com/_viral_doshi/) |
   | Nishiket Bidawat | Github | Email | LinkedIn | Instagram |
-  | Ankit Sharma | Github | Email | LinkedIn | Instagram |
+  | Ankit Sharma | [GitHub](https://github.com/ankit-4129) | [Email](mailto:ankitsharma.rbt2@gmail.com) |  |  |
   | Parth Sakariya | Github | Email | LinkedIn | Instagram |
   
