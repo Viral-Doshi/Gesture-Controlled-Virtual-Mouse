@@ -192,15 +192,42 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 </details>
 
 # Getting Started
-  ### Requirments
-  ```bash 
-  pip install requirments.txt
-  ```
+  
   ### Procedure
   ```bash
   git clone https://github.com/xenon-19/Gesture_Controller.git
   ```
   For detailed information about cloning visit [here](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository-from-github/cloning-a-repository).
+  
+  Step 1: 
+  ```bash
+  conda create --name gest python=3.8.5
+  ```
+  
+  Step 2:
+  ```bash
+  conda activate gest
+  ```
+  
+  Step 3:
+  ```bash
+  pip install requirements.txt
+  ```
+  
+  Step 4:
+  ```bash 
+  conda install PyAudio
+  ```
+  Step 5:
+  ``` 
+  cd to the GitHub Repo till src folder
+  ```
+  Command may look like: `cd C:\Users\.....\Gesture_Controller\src`
+  
+  Step 6:
+  ```bash 
+  python Proton.py
+  ```
 
   
 # Collaborators
