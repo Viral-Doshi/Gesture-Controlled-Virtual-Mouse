@@ -192,6 +192,11 @@ Gesture Controller makes human computer interaction simple by making use of Hand
 </details>
 
 # Getting Started
+
+  ### Pre-requisites
+  
+  Python: (3 - 3.8.5)
+  Anaconda Distribution: To download click [here](https://www.anaconda.com/products/individual).
   
   ### Procedure
   ```bash
