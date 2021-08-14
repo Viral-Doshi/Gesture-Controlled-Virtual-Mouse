@@ -211,7 +211,7 @@ Gesture Controller makes human computer interaction simple by making use of Hand
   
   Step 3:
   ```bash
-  pip install requirements.txt
+  pip install -r requirements.txt
   ```
   
   Step 4:
