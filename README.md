@@ -223,6 +223,10 @@ Gesture Controller makes human computer interaction simple by making use of Hand
   ```bash 
   conda install PyAudio
   ```
+  ```bash 
+  conda install pywin32
+  ```
+  
   Step 5:
   ``` 
   cd to the GitHub Repo till src folder
