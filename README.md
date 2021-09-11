@@ -200,7 +200,7 @@ Gesture Controlled Virtual Mouse makes human computer interaction simple by maki
   
   ### Procedure
   ```bash
-  git clone https://github.com/xenon-19/Gesture_Controller.git
+  git clone https://github.com/xenon-19/Gesture-Controlled-Virtual-Mouse.git
   ```
   For detailed information about cloning visit [here](https://docs.github.com/en/github/creating-cloning-and-archiving-repositories/cloning-a-repository-from-github/cloning-a-repository).
   
