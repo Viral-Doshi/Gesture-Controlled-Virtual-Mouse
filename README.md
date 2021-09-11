@@ -6,7 +6,8 @@ Gesture Controlled Virtual Mouse makes human computer interaction simple by maki
 
 
 # Features
- _click on dropdown to know more_
+ _click on dropdown to know more_ <br>
+ _for video demostration check out this [link](https://www.youtube.com/watch?v=ufm6tfgo-OA&ab_channel=Proton)_
 ### Gesture Recognition:
 <details>
 <summary>Neutral Gesture</summary>
@@ -231,7 +232,7 @@ Gesture Controlled Virtual Mouse makes human computer interaction simple by maki
   ``` 
   cd to the GitHub Repo till src folder
   ```
-  Command may look like: `cd C:\Users\.....\Gesture_Controller\src`
+  Command may look like: `cd C:\Users\.....\Gesture-Controlled-Virtual-Mouse\src`
   
   Step 6:
   ```bash 
