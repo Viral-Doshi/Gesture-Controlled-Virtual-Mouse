@@ -147,7 +147,7 @@ def respond(voice_data):
     elif 'stop gesture recognition' in voice_data:
         if Gesture_Controller.GestureController.gc_mode:
             Gesture_Controller.GestureController.gc_mode = 0
-            reply('Gesture recognition Stoped')
+            reply('Gesture recognition Stopped')
         else:
             reply('Gesture recognition is already inactive')
         
