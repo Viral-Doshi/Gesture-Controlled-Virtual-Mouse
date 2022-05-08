@@ -144,10 +144,10 @@ def respond(voice_data):
             t.start()
             reply('Launched Successfully')
 
-    elif 'stop gesture recognition' in voice_data:
+    elif ('stop gesture recognition' in voice_data) or ('top gesture recognition' in voice_data):
         if Gesture_Controller.GestureController.gc_mode:
             Gesture_Controller.GestureController.gc_mode = 0
-            reply('Gesture recognition Stoped')
+            reply('Gesture recognition stopped')
         else:
             reply('Gesture recognition is already inactive')
         

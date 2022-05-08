@@ -542,4 +542,3 @@ class GestureController:
         
         
         
-        
