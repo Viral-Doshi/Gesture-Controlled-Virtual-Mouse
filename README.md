@@ -256,7 +256,7 @@ Note: Use Python version: 3.8.5
 # Collaborators
   | |  |  |  |  |
   | ------------- | ------------- | ------------- | ------------- | ------------- |
-  | Viral Doshi | [GitHub](https://github.com/Viral-Doshi) | [Email](mailto:viraldoshi321@gmail.com) | [LinkedIn](https://www.linkedin.com/in/viral-doshi-5a7737190/) | [Instagram](https://www.instagram.com/_viral_doshi/) |
+  | Viral Doshi | [GitHub](https://github.com/Viral-Doshi) | Email | [LinkedIn](https://www.linkedin.com/in/viral-doshi-5a7737190/) | Instagram |
   | Nishiket Bidawat | [Github](https://github.com/xenon-19) | [Email](mailto:bidawatnishiket@gmail.com) | [LinkedIn](https://www.linkedin.com/in/nishiket-bidawat-74b419193/) | [Instagram](https://myanimelist.net/profile/Xenon1901) |
   | Ankit Sharma | [GitHub](https://github.com/ankit-4129) | [Email](mailto:ankitsharma.rbt@gmail.com) | LinkedIn | Instagram |
   | Parth Sakariya | [Github](https://github.com/parth-12) | [Email](mailto:parthsakariya12@icloud.com) | [LinkedIn](https://www.linkedin.com/in/parth-sakariya-1886b2193/) | [Instagram](https://www.instagram.com/parth_sak12/) |
