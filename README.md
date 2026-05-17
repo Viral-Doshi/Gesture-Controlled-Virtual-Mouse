@@ -21,7 +21,7 @@ Note: Use Python version: 3.8.5
  
 
 <details>
-<summary>Move Cursor</summary>
+<summary>Move Cursoring in order</summary>
   <img src="https://github.com/xenon-19/Gesture_Controller/blob/e20edfb1f368ffa600d96bd91031942ec97cb2ab/demo_media/move%20mouse.gif" alt="Move Cursor" width="711" height="400"><br>
   <figcaption>Cursor is assigned to the midpoint of index and middle fingertips. This gesture moves the cursor to the desired location. Speed of the cursor movement is proportional to the speed of hand.</figcaption>
 </details>
